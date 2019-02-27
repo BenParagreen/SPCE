@@ -184,10 +184,8 @@ void Level::LoadLevel(int _levelToLoad)
 		}
 		else if (ch == 'E')
 		{
-
 			Exit* exit = new Exit();
-			exit->SetPosition(x,y);
-			exit->SetPlayer(player);
+			exit->SetPosition(x, y);
 			m_updateList.push_back(exit);
 			m_worldDrawList.push_back(exit);
 			m_collisionList.push_back(std::make_pair(exit, player));

@@ -5,7 +5,7 @@ Exit::Exit()
 	: SpriteObject() // Initialise parent class
 	, m_player(nullptr)
 {
-	m_sprite.setTexture(AssetManager::GetTexture("graphics/DoorClosed.png"));
+	m_sprite.setTexture(AssetManager::GetTexture("graphics/NoAbility.png"));
 }
 
 void Exit::Update(sf::Time _frametime)
