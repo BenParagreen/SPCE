@@ -118,8 +118,8 @@ void Level::LoadLevel(int _levelToLoad)
 	float y = 0.0f;
 
 	//Define the spacing we will use for the grid
-	const float X_SPACE = 110.0f;
-	const float Y_SPACE = 110.0f;
+	const float X_SPACE = 100.0f;
+	const float Y_SPACE = 100.0f;
 
 	// create the player since other objects need to reference it
 	Player* player = new Player();
@@ -157,6 +157,14 @@ void Level::LoadLevel(int _levelToLoad)
 			m_updateList.push_back(wall);
 			m_worldDrawList.push_back(wall);
 			m_collisionList.push_back(std::make_pair(player, wall));
+		}
+		else if (ch == 'S')
+		{
+			Enemy* enemy = new Enemy();
+			enemy->SetPosition(x, y);
+			m_updateList.push_back(enemy);
+			m_worldDrawList.push_back(enemy);
+			m_collisionList.push_back(std::make_pair(player, enemy));
 		}
 		else if (ch == 'C')
 		{

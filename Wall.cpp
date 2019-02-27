@@ -6,6 +6,6 @@
 Wall::Wall()
 	: SpriteObject() // Initialise parent class
 {
-	m_sprite.setTexture(AssetManager::GetTexture("graphics/BrickWall2.png"));
+	m_sprite.setTexture(AssetManager::GetTexture("graphics/ScoreWall.png"));
 	// TODO: TEMP REMOVE
 }
