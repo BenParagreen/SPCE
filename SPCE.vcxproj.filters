@@ -30,9 +30,6 @@
     <ClCompile Include="Hazard.cpp">
       <Filter>GameCode</Filter>
     </ClCompile>
-    <ClCompile Include="Key.cpp">
-      <Filter>GameCode</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>GameCode</Filter>
     </ClCompile>
@@ -63,6 +60,9 @@
     <ClCompile Include="Exit.cpp">
       <Filter>GameCode</Filter>
     </ClCompile>
+    <ClCompile Include="SpeedUp.cpp">
+      <Filter>GameCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\AssetManager.h">
@@ -84,9 +84,6 @@
       <Filter>GameCode</Filter>
     </ClInclude>
     <ClInclude Include="Hazard.h">
-      <Filter>GameCode</Filter>
-    </ClInclude>
-    <ClInclude Include="Key.h">
       <Filter>GameCode</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
@@ -114,6 +111,9 @@
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Exit.h">
+      <Filter>GameCode</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeedUp.h">
       <Filter>GameCode</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,7 +5,7 @@
 #include "Enemy.h"
 #include "Score.h"
 #include "Coin.h"
-#include "Key.h"
+#include "SpeedUp.h"
 #include "Hazard.h"
 
 // Library Includes
@@ -158,7 +158,7 @@ void Level::LoadLevel(int _levelToLoad)
 			m_worldDrawList.push_back(wall);
 			m_collisionList.push_back(std::make_pair(player, wall));
 		}
-		else if (ch == 'S')
+		else if (ch == 'E')
 		{
 			Enemy* enemy = new Enemy();
 			enemy->SetPosition(x, y);
@@ -174,7 +174,7 @@ void Level::LoadLevel(int _levelToLoad)
 			m_worldDrawList.push_back(coin);
 			m_collisionList.push_back(std::make_pair(coin, player));
 		}
-		else if (ch == 'K')
+		else if (ch == 'S')
 		{
 			Key* key = new Key();
 			key->SetPosition(x, y);
@@ -182,7 +182,7 @@ void Level::LoadLevel(int _levelToLoad)
 			m_worldDrawList.push_back(key);
 			m_collisionList.push_back(std::make_pair(key, player));
 		}
-		else if (ch == 'E')
+		else if (ch == 'O')
 		{
 			Exit* exit = new Exit();
 			exit->SetPosition(x, y);

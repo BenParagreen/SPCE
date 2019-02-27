@@ -14,7 +14,7 @@ void Exit::Update(sf::Time _frametime)
 	{
 		bool key = m_player->GetKey();
 		if (key == true)
-		    m_sprite.setTexture(AssetManager::GetTexture("graphics/DoorOpen.png"));
+		    m_sprite.setTexture(AssetManager::GetTexture("graphics/SpeedUpStored.png"));
 	}
 }
 

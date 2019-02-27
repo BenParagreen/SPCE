@@ -134,7 +134,7 @@
     <ClCompile Include="Framework\SpriteObject.cpp" />
     <ClCompile Include="Framework\TextObject.cpp" />
     <ClCompile Include="Hazard.cpp" />
-    <ClCompile Include="Key.cpp" />
+    <ClCompile Include="SpeedUp.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Pickup.cpp" />
@@ -154,7 +154,7 @@
     <ClInclude Include="Framework\SpriteObject.h" />
     <ClInclude Include="Framework\TextObject.h" />
     <ClInclude Include="Hazard.h" />
-    <ClInclude Include="Key.h" />
+    <ClInclude Include="SpeedUp.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Pickup.h" />
     <ClInclude Include="Player.h" />
