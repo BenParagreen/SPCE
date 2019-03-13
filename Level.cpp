@@ -1,6 +1,6 @@
 #include "Level.h"
 #include "Wall.h"
-#include "Exit.h"
+#include "AbilityHolder.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Score.h"
@@ -176,19 +176,19 @@ void Level::LoadLevel(int _levelToLoad)
 		}
 		else if (ch == 'S')
 		{
-			Key* key = new Key();
-			key->SetPosition(x, y);
-			m_updateList.push_back(key);
-			m_worldDrawList.push_back(key);
-			m_collisionList.push_back(std::make_pair(key, player));
+			SpeedUp* speedup = new SpeedUp();
+			speedup->SetPosition(x, y);
+			m_updateList.push_back(speedup);
+			m_worldDrawList.push_back(speedup);
+			m_collisionList.push_back(std::make_pair(speedup, player));
 		}
 		else if (ch == 'O')
 		{
-			Exit* exit = new Exit();
-			exit->SetPosition(x, y);
-			m_updateList.push_back(exit);
-			m_worldDrawList.push_back(exit);
-			m_collisionList.push_back(std::make_pair(exit, player));
+			AbilityHolder* abilityholder = new AbilityHolder();
+			abilityholder->SetPosition(x, y);
+			m_updateList.push_back(abilityholder);
+			m_worldDrawList.push_back(abilityholder);
+			m_collisionList.push_back(std::make_pair(abilityholder, player));
 		}
 		else if (ch == 'H')
 		{
@@ -225,7 +225,4 @@ void Level::ReloadLevel()
 	LoadLevel(m_currentLevel);
 }
 
-void Level::LoadNextLevel()
-{
-	LoadLevel(m_currentLevel + 1);
-}
+

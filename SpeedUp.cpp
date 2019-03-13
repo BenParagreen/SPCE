@@ -2,14 +2,23 @@
 #include "SpeedUp.h"
 #include "Framework/AssetManager.h"
 
-Key::Key()
+SpeedUp::SpeedUp()
 	: Pickup()
 {
 	m_sprite.setTexture(AssetManager::GetTexture("graphics/SpeedUp.png"));
-	// TEMP KEY POSITION
+	m_velocity.x = -40.0f;
+	m_velocity.y = 0.0f;
 }
 
-void Key::onPickup(Player& _player)
+void SpeedUp::Update(sf::Time _frameTime)
 {
-	_player.HasKey(true);
+	//Call the update function manually on the parent class
+	// this will actually move the character
+	MovingObject::Update(_frameTime);
+
+}
+
+void SpeedUp::onPickup(Player& _player)
+{
+	_player.HasAbility(true);
 }

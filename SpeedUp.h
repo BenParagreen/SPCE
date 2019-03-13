@@ -3,10 +3,12 @@
 //Project Includes
 #include "Pickup.h"
 
-class Key : public Pickup
+class SpeedUp : public Pickup
 {
 public:
-	Key();
+    SpeedUp();
+	void Update(sf::Time _frameTime);
+
 private:
 	virtual void onPickup(Player& _player);
 };

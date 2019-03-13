@@ -17,16 +17,15 @@ public:
 	// Public Player methods
 	int GetScore();
 	void ChangeScore(int _change);
-	bool GetKey();
-	void HasKey(bool _keychange);
+	bool GetAbility();
+	void HasAbility(bool _keychange);
 	void Kill();
 	void SetLevel(Level* _newLevel);
-	void AdvanceLevel();
 
 private:
 
 	int m_score;
-	bool m_keycollected;
+	bool m_abilitycollected;
 	AnimationSystem m_animationSystem;
 	Level* m_level;
 };

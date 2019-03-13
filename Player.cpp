@@ -4,7 +4,8 @@
 #include "Wall.h"
 
 //Constants
-#define SPEED 400.0f
+#define SPEED 500.0f
+#define SPEEDANGLE 3.0f
 
 Player::Player()
 	: MovingObject()
@@ -40,18 +41,26 @@ void Player::Update(sf::Time _frameTime)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
 		m_velocity.y = -SPEED;
+		if ( sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			m_velocity.y = -SPEED + (SPEED / SPEEDANGLE);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		m_velocity.y = SPEED;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			m_velocity.y = SPEED - (SPEED / SPEEDANGLE);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		m_velocity.x = -SPEED;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			m_velocity.x = -SPEED + (SPEED / SPEEDANGLE);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		m_velocity.x = SPEED;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			m_velocity.x = SPEED - (SPEED / SPEEDANGLE);
 	}
 
 
@@ -84,8 +93,8 @@ void Player::Collide(GameObject& _collider)
 		// It results in "sticky" wall (does not allow you to slide against them
 		// It is quicker and easier to implement though so it is being used in this game
 	}
-
 }
+
 
 int Player::GetScore()
 {
@@ -97,14 +106,14 @@ void Player::ChangeScore(int _change)
 	m_score += _change;
 }
 
-bool Player::GetKey()
+bool Player::GetAbility()
 {
-	return m_keycollected;
+	return m_abilitycollected;
 }
 
-void Player::HasKey(bool _keychange)
+void Player::HasAbility(bool _abilitychange)
 {
-	m_keycollected = _keychange;
+	m_abilitycollected = _abilitychange;
 }
 
 void Player::Kill()
@@ -119,9 +128,3 @@ void Player::SetLevel(Level* _newLevel)
 	m_level = _newLevel;
 }
 
-void Player::AdvanceLevel()
-{
-	//Reload current Level
-	if (m_level != nullptr)
-		m_level->LoadNextLevel();
-}

@@ -8,4 +8,5 @@ class Enemy : public MovingObject
 public:
 	Enemy();
 
+	void Update(sf::Time _frameTime);
 };

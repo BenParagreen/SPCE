@@ -3,7 +3,7 @@
 #include "Player.h"
 
 Pickup::Pickup()
-	: SpriteObject()
+	: MovingObject()
 {
 
 }

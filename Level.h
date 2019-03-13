@@ -14,7 +14,7 @@ public:
     void Update(sf::Time _frametime);
 	void LoadLevel(int _levelToLoad);
 	void ReloadLevel();
-	void LoadNextLevel();
+
 
 private:
 

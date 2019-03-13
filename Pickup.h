@@ -4,7 +4,7 @@
 #include "Framework/SpriteObject.h"
 #include "Player.h"
 
-class Pickup : public SpriteObject
+class Pickup : public MovingObject
 {
 public:
 	Pickup();

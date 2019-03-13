@@ -57,10 +57,10 @@
     <ClCompile Include="Framework\AnimationSystem.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Exit.cpp">
+    <ClCompile Include="SpeedUp.cpp">
       <Filter>GameCode</Filter>
     </ClCompile>
-    <ClCompile Include="SpeedUp.cpp">
+    <ClCompile Include="AbilityHolder.cpp">
       <Filter>GameCode</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,10 +110,10 @@
     <ClInclude Include="Framework\AnimationSystem.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Exit.h">
+    <ClInclude Include="SpeedUp.h">
       <Filter>GameCode</Filter>
     </ClInclude>
-    <ClInclude Include="SpeedUp.h">
+    <ClInclude Include="AbilityHolder.h">
       <Filter>GameCode</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,14 +4,13 @@
 #include "Framework/SpriteObject.h"
 #include "Player.h"
 
-class Exit : public SpriteObject
+class AbilityHolder : public SpriteObject
 {
 public:
-	Exit();
+	AbilityHolder();
 
 	// Overriding Methods
 	void Update(sf::Time _frametime);
-    void Collide(GameObject& _collider);
 
 	// Public Collected Methods
 	void SetPlayer(Player* _player);
