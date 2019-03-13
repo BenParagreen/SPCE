@@ -161,7 +161,7 @@ void Level::LoadLevel(int _levelToLoad)
 		else if (ch == 'E')
 		{
 			Enemy* enemy = new Enemy();
-			enemy->SetPosition(x, y);
+	        enemy->Spawn();
 			m_updateList.push_back(enemy);
 			m_worldDrawList.push_back(enemy);
 			m_collisionList.push_back(std::make_pair(player, enemy));
@@ -177,7 +177,7 @@ void Level::LoadLevel(int _levelToLoad)
 		else if (ch == 'S')
 		{
 			SpeedUp* speedup = new SpeedUp();
-			speedup->SetPosition(x, y);
+			speedup->Spawn();
 			m_updateList.push_back(speedup);
 			m_worldDrawList.push_back(speedup);
 			m_collisionList.push_back(std::make_pair(speedup, player));

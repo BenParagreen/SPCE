@@ -2,6 +2,11 @@
 #include "SpeedUp.h"
 #include "Framework/AssetManager.h"
 
+// Constants
+#define POS_Y_MIN 100
+#define POS_Y_MAX 900
+
+
 SpeedUp::SpeedUp()
 	: Pickup()
 {
@@ -21,4 +26,14 @@ void SpeedUp::Update(sf::Time _frameTime)
 void SpeedUp::onPickup(Player& _player)
 {
 	_player.HasAbility(true);
+}
+
+void SpeedUp::Spawn()
+{
+	// Choose a random y position
+	sf::Vector2f position;
+	position.y = rand() % (POS_Y_MAX - POS_Y_MIN) + POS_Y_MIN;
+	position.x = 1800.0f;
+
+	SetPosition(position);
 }

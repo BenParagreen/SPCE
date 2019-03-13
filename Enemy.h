@@ -9,4 +9,7 @@ public:
 	Enemy();
 
 	void Update(sf::Time _frameTime);
+
+	void Spawn();
+
 };

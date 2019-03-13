@@ -15,6 +15,8 @@ public:
 	// Public Score Methods
 	void SetPlayer(Player* _player);
 
+	void Spawn();
+
 private:
 	Player* m_player;
 };
