@@ -6,7 +6,6 @@
 #include "Score.h"
 #include "Coin.h"
 #include "SpeedUp.h"
-#include "Hazard.h"
 
 // Library Includes
 #include <iostream>
@@ -189,14 +188,6 @@ void Level::LoadLevel(int _levelToLoad)
 			m_updateList.push_back(abilityholder);
 			m_worldDrawList.push_back(abilityholder);
 			m_collisionList.push_back(std::make_pair(abilityholder, player));
-		}
-		else if (ch == 'H')
-		{
-			Hazard* hazard = new Hazard();
-			hazard->SetPosition(x, y);
-			m_updateList.push_back(hazard);
-			m_worldDrawList.push_back(hazard);
-			m_collisionList.push_back(std::make_pair(hazard, player));
 		}
 		else if (ch == '-')
 		{

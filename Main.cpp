@@ -9,6 +9,7 @@
 // Project Includes
 #include "Framework/AssetManager.h"
 #include"Level.h"
+#include "Enemy.h"
 
 // The main() Function - entry point for our program
 int main()
@@ -67,6 +68,7 @@ int main()
 
 		// Pass update to level
 		level.Update(frameTime);
+
 
 		// Draw Section
 		// -----------------------------------------------

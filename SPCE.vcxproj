@@ -133,7 +133,7 @@
     <ClCompile Include="Framework\MovingObject.cpp" />
     <ClCompile Include="Framework\SpriteObject.cpp" />
     <ClCompile Include="Framework\TextObject.cpp" />
-    <ClCompile Include="Hazard.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="SpeedUp.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -153,7 +153,7 @@
     <ClInclude Include="Framework\MovingObject.h" />
     <ClInclude Include="Framework\SpriteObject.h" />
     <ClInclude Include="Framework\TextObject.h" />
-    <ClInclude Include="Hazard.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="SpeedUp.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Pickup.h" />

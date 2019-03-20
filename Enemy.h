@@ -12,4 +12,5 @@ public:
 
 	void Spawn();
 
+	void Kill();
 };

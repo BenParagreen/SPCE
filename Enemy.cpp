@@ -34,3 +34,8 @@ void Enemy::Spawn()
 
 	SetPosition(position);
 }
+
+void Enemy::Kill()
+{
+	//Despawn the enemy add points
+}
