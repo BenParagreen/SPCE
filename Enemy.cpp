@@ -23,6 +23,11 @@ void Enemy::Update(sf::Time _frameTime)
 	//Call the update function manually on the parent class
 	// this will actually move the character
 	MovingObject::Update(_frameTime);
+
+	//After a few seconds stop 
+
+
+	//Every couple of seconds fire a bullet
 }
 
 void Enemy::Spawn()

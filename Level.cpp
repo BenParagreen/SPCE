@@ -97,6 +97,7 @@ void Level::LoadLevel(int _levelToLoad)
 
 	// Set the Current Level
 	m_currentLevel = _levelToLoad;
+	bool m_levelTrue = true;
 
 	//Set up New Level
 
@@ -208,6 +209,20 @@ void Level::LoadLevel(int _levelToLoad)
 	score->SetPlayer(player);
 	m_updateList.push_back(score);
 	m_uiDrawList.push_back(score);
+
+
+	// ADD ENEMY and ABILITY SPAWN LOOP
+	// While level is active
+	//while (m_levelTrue = true)
+	//{
+		// Spawn enemy every _ seconds,
+		// if timesinceenemyspawned > enemytimer Spawn another enemy
+		// After spawned, reduce spawn timer
+
+
+		// Spawn Ability every _ seconds
+	//}
+
 
 }
 
