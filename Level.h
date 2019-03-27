@@ -13,6 +13,7 @@ public:
 	void Draw(sf::RenderTarget& _target);
     void Update(sf::Time _frametime);
 	void LoadLevel(int _levelToLoad);
+	void AddObjects(GameObject* _toAdd);
 	void ReloadLevel();
 
 

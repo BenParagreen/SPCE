@@ -6,7 +6,7 @@ AbilityHolder::AbilityHolder()
 	, m_player(nullptr)
 {
 	//Set texture to empty
-	//m_sprite.setTexture(AssetManager::GetTexture("graphics/NoAbility.png"));
+	m_sprite.setTexture(AssetManager::GetTexture("graphics/NoAbility.png"));
 }
 
 void AbilityHolder::Update(sf::Time _frametime)

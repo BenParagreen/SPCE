@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Framework/AssetManager.h"
 #include "Wall.h"
+#include "Bullet.h"
 
 //Constants
 #define SPEED 500.0f
@@ -18,17 +19,14 @@ Player::Player()
 
 	// Set up the animation
 	m_animationSystem.SetSprite(m_sprite);
-	//Create indivdual animations
-	Animation& standDown = m_animationSystem.CreateAnimation("standDown");
-	standDown.AddFrame(AssetManager::GetTexture("graphics/PlayerWalkDown1.png"));
 
-	Animation& runDown = m_animationSystem.CreateAnimation("runDown");
+	Animation& runDown = m_animationSystem.CreateAnimation("flying");
 	runDown.AddFrame(AssetManager::GetTexture("graphics/Jet.png"));
 	runDown.AddFrame(AssetManager::GetTexture("graphics/Jet2.png"));
 	runDown.SetPlayBackSpeed(5);
 	runDown.SetLoop(true);
 
-	m_animationSystem.Play("runDown");
+	m_animationSystem.Play("flying");
 }
 
 void Player::Update(sf::Time _frameTime)
@@ -63,10 +61,30 @@ void Player::Update(sf::Time _frameTime)
 			m_velocity.x = SPEED - (SPEED / SPEEDANGLE);
 	}
 
+	//bulletPosition = new Vector2()
+
+	// When the player presses the F key it will set the bullets position and call it to spawn
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+	{
+		// Create a timer to restrict the amount of bullets fired
+
+		// Store Player position for bullet position to go off of
+		sf::Vector2f position;
+		position = m_sprite.getPosition();
+		position.x = position.x + 120.0f;
+		position.y = position.y + 48.0f;
+		//Create the bullet and fire
+		Bullet* bullet = new Bullet();
+		bullet->Fire(position);
+		// Send to level for it to take care of bullet once it has appeared on screen
+		m_level->AddObjects(bullet);
+	}
 
 	//Call the update function manually on the parent class
 	// this will actually move the character
 	MovingObject::Update(_frameTime);
+
+	
 
 	//Process Animations
 	m_animationSystem.Update(_frameTime);

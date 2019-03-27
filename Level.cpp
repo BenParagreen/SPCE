@@ -6,6 +6,7 @@
 #include "Score.h"
 #include "Coin.h"
 #include "SpeedUp.h"
+#include "Bullet.h"
 
 // Library Includes
 #include <iostream>
@@ -27,7 +28,6 @@ void Level::Draw(sf::RenderTarget& _target)
 
 	sf::View camera = _target.getDefaultView();
 
-	
 
 	for (int i = 0; i < m_worldDrawList.size(); ++i)
 	{
@@ -225,6 +225,13 @@ void Level::LoadLevel(int _levelToLoad)
 
 
 }
+
+void Level::AddObjects(GameObject* _toAdd)
+{
+	m_updateList.push_back(_toAdd);
+	m_uiDrawList.push_back(_toAdd);
+}
+
 
 void Level::ReloadLevel()
 {

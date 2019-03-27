@@ -11,6 +11,8 @@ public:
 
 	void Update(sf::Time _frameTime);
 
+	void Fire(sf::Vector2f _target);
+
 	//Overriding Methods
     //void Collide(GameObject& _collider);
 };
