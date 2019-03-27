@@ -223,14 +223,14 @@ void Level::LoadLevel(int _levelToLoad)
 		// Spawn Ability every _ seconds
 	//}
 
-
 }
 
 //Whenever A new object is made during play, Add it to the list of game objects
 void Level::AddObjects(GameObject* _toAdd)
 {
 	m_updateList.push_back(_toAdd);
-	m_uiDrawList.push_back(_toAdd);
+	m_uiDrawList.push_back(_toAdd);			
+	//m_collisionList.push_back(std::make_pair(_toAdd, wall));
 }
 
 

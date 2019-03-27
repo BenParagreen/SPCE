@@ -29,7 +29,7 @@ private:
 	AnimationSystem m_animationSystem;
 	Level* m_level;
 
-	sf::Time currenttime ;
+	sf::Time currenttime;
 	float timecap;
 
 };

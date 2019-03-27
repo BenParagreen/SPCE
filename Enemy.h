@@ -9,8 +9,8 @@ public:
 	Enemy();
 
 	void Update(sf::Time _frameTime);
-
 	void Spawn();
 
-	void Kill();
+	//Override
+	virtual void Collide(GameObject& _collider);
 };

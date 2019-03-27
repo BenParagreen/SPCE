@@ -3,6 +3,7 @@
 #include "Framework/AssetManager.h"
 #include "Wall.h"
 #include "Bullet.h"
+#include "Enemy.h"
 
 //Constants
 #define SPEED 500.0f
@@ -14,7 +15,7 @@ Player::Player()
 	, m_animationSystem()
 	, m_level(nullptr)
 	, currenttime()
-	, timecap(0.1f)
+	, timecap(1.0f)
 
 {
 	m_sprite.setTexture(AssetManager::GetTexture("graphics/Jet.png"));
@@ -37,6 +38,7 @@ void Player::Update(sf::Time _frameTime)
 	m_velocity.x = 0.0f;
 	m_velocity.y = 0.0f;
 	
+	currenttime += _frameTime;
 
 	//Use the keyboard function to check which keys are currently held down and solve direction to move
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -69,7 +71,9 @@ void Player::Update(sf::Time _frameTime)
 	// Create a timer to restrict the amount of bullets fired
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
 	{
-			// Take player position and use to find bullet position
+		if (currenttime.asSeconds() >= timecap)
+		{
+	    // Take player position and use to find bullet position
 		sf::Vector2f position;
 		position = m_sprite.getPosition();
 		position.x = position.x + 120.0f;
@@ -80,6 +84,10 @@ void Player::Update(sf::Time _frameTime)
 		bullet->Fire(position);
 		// Send to level for it to take care of bullet once it has appeared on screenff
 		m_level->AddObjects(bullet);
+
+		currenttime = sf::seconds(0.0f);
+		}
+		
 	}
 
 	//Call the update function manually on the parent class
@@ -109,6 +117,15 @@ void Player::Collide(GameObject& _collider)
 		// This is not the best method for creating wall collision
 		// It results in "sticky" wall (does not allow you to slide against them
 		// It is quicker and easier to implement though so it is being used in this game
+	}
+
+	Enemy* enemyCollider = dynamic_cast<Enemy*>(&_collider);
+
+	//If it was a wall we hit we need to move ourselves outside the walls bounds
+	// aka, our previous position
+	if (enemyCollider != nullptr)
+	{
+		Kill();
 	}
 }
 

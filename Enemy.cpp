@@ -3,6 +3,7 @@
 
 //Library Includes
 #include "Enemy.h"
+#include "Bullet.h"
 #include "Framework/AssetManager.h"
 
 // Constants
@@ -40,7 +41,13 @@ void Enemy::Spawn()
 	SetPosition(position);
 }
 
-void Enemy::Kill()
+void Enemy::Collide(GameObject& _collider)
 {
-	//Despawn the enemy add points
+	Bullet* bulletCollider = dynamic_cast<Bullet*>(&_collider);
+
+	if (bulletCollider != nullptr)
+	{
+		m_active == false;
+
+	}
 }
