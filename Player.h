@@ -28,4 +28,8 @@ private:
 	bool m_abilitycollected;
 	AnimationSystem m_animationSystem;
 	Level* m_level;
+
+	sf::Time currenttime ;
+	float timecap;
+
 };

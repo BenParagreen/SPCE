@@ -13,6 +13,8 @@ Player::Player()
 	, m_score(0)
 	, m_animationSystem()
 	, m_level(nullptr)
+	, currenttime()
+	, timecap(0.1f)
 
 {
 	m_sprite.setTexture(AssetManager::GetTexture("graphics/Jet.png"));
@@ -34,8 +36,9 @@ void Player::Update(sf::Time _frameTime)
 	//First assume no keys are pressed
 	m_velocity.x = 0.0f;
 	m_velocity.y = 0.0f;
+	
 
-	//Use the keyboard function to check which keys are currently held down
+	//Use the keyboard function to check which keys are currently held down and solve direction to move
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
 		m_velocity.y = -SPEED;
@@ -61,30 +64,27 @@ void Player::Update(sf::Time _frameTime)
 			m_velocity.x = SPEED - (SPEED / SPEEDANGLE);
 	}
 
-	//bulletPosition = new Vector2()
 
 	// When the player presses the F key it will set the bullets position and call it to spawn
+	// Create a timer to restrict the amount of bullets fired
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
 	{
-		// Create a timer to restrict the amount of bullets fired
-
-		// Store Player position for bullet position to go off of
+			// Take player position and use to find bullet position
 		sf::Vector2f position;
 		position = m_sprite.getPosition();
 		position.x = position.x + 120.0f;
 		position.y = position.y + 48.0f;
 		//Create the bullet and fire
 		Bullet* bullet = new Bullet();
+		// Fire bullet passing in position
 		bullet->Fire(position);
-		// Send to level for it to take care of bullet once it has appeared on screen
+		// Send to level for it to take care of bullet once it has appeared on screenff
 		m_level->AddObjects(bullet);
 	}
 
 	//Call the update function manually on the parent class
-	// this will actually move the character
+	// this will move the character
 	MovingObject::Update(_frameTime);
-
-	
 
 	//Process Animations
 	m_animationSystem.Update(_frameTime);
@@ -93,7 +93,6 @@ void Player::Update(sf::Time _frameTime)
 void Player::Collide(GameObject& _collider)
 {
 	//Only do something if what the player touched was the wall
-
 	//Dynamic cast the GameObject reference into a wall pointer
 	// if it succeeds it was a wall
 	Wall* wallCollider = dynamic_cast<Wall*>(&_collider);

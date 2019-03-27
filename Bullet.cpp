@@ -1,6 +1,7 @@
 
 //Project Includes
 #include "Bullet.h"
+#include "Enemy.h"
 #include "Framework/AssetManager.h"
 
 #define SPEED 900.0f
@@ -29,19 +30,15 @@ void Bullet::Fire(sf::Vector2f _target)
 
 
 
+void Bullet::Collide(GameObject& _collider)
+{
 
-//void Bullet::Collide(GameObject& _collider)
-//{
+    // Check if we are colliding with the enemy
+	Enemy* enemyCollider = dynamic_cast<Enemy*>(&_collider);
+	// check that the collision happened
+	if (enemyCollider != nullptr)
+	{
+		m_active = false;
+	}
 
-	// Only do something if colliding with Enemy
-
-	//Enemy* castEnemy = dynamic_cast<Enemy*>(&_collider);
-
-	//if (castEnemy != nullptr)
-	//{
-		// Touched by the player
-		// Kill player
-		//castEnemy->Kill();
-	//}
-
-//}
+}

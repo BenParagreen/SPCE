@@ -226,6 +226,7 @@ void Level::LoadLevel(int _levelToLoad)
 
 }
 
+//Whenever A new object is made during play, Add it to the list of game objects
 void Level::AddObjects(GameObject* _toAdd)
 {
 	m_updateList.push_back(_toAdd);

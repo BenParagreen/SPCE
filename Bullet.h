@@ -14,5 +14,5 @@ public:
 	void Fire(sf::Vector2f _target);
 
 	//Overriding Methods
-    //void Collide(GameObject& _collider);
+    void Collide(GameObject& _collider);
 };
