@@ -4,7 +4,6 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Score.h"
-#include "Coin.h"
 #include "SpeedUp.h"
 #include "Bullet.h"
 
@@ -19,6 +18,11 @@ Level::Level()
 	, m_worldDrawList()
 	, m_uiDrawList()
 	, m_collisionList()
+	, m_enemyList()
+	, m_currenttime()
+	, m_enemytimecap(3.0f)
+	, m_currenttime2()
+	, m_abilitytimecap(60.0f)
 {
 	LoadLevel(1);
 }
@@ -76,6 +80,52 @@ void Level::Update(sf::Time _frameTime)
 			}
 		}
 	}
+
+	// Add Enemies to an Enemylist in order to handle collisions when a bullet connects
+
+	for (int i = 0; i < m_enemyList.size(); ++i)
+	{
+		if (m_enemyList[i]->isActive())
+		{
+			m_enemyList[i]->Update(_frameTime);
+		}
+	}
+
+	// TIMER FOR ENEMY SPAWNING //
+	m_currenttime += _frameTime;
+
+	if (m_currenttime.asSeconds() >= m_enemytimecap)
+	{
+		//Spawn new enemy
+		Enemy* enemy = new Enemy();
+		
+
+		// Fire bullet passing in position
+		enemy->Spawn();
+		// Add enemy to level
+		AddObjects(enemy);
+        m_enemyList.push_back(enemy);
+
+
+		m_currenttime = sf::seconds(0.0f);
+	}
+
+	// TIMER FOR ABILITY SPAWNING //
+
+	m_currenttime2 += _frameTime;
+
+	if (m_currenttime2.asSeconds() >= m_abilitytimecap)
+	{
+		//Spawn new enemy
+		SpeedUp* speedup = new SpeedUp();
+		// Fire bullet passing in position
+		speedup->Spawn();
+		// Add enemy to level
+		AddObjects(speedup);
+
+		m_currenttime2 = sf::seconds(0.0f);
+	}
+
 }
 
 void Level::LoadLevel(int _levelToLoad)
@@ -89,17 +139,21 @@ void Level::LoadLevel(int _levelToLoad)
 		delete m_updateList[i];
 	}
 
+	for (int i = 0; i < m_enemyList.size(); ++i)
+	{
+		delete m_enemyList[i];
+	}
+
 	//Clear out lists
 	m_updateList.clear();
 	m_worldDrawList.clear();
 	m_uiDrawList.clear();
 	m_collisionList.clear();
+	m_enemyList.clear();
 
 	// Set the Current Level
 	m_currentLevel = _levelToLoad;
 	bool m_levelTrue = true;
-
-	//Set up New Level
 
 	//Open File for Reading
 	std::ifstream inFile;
@@ -143,7 +197,7 @@ void Level::LoadLevel(int _levelToLoad)
 			y += Y_SPACE;
 			x = 0;
 		}
-		else if (ch == 'P')
+	    else if (ch == 'P')
 		{
 			player->SetPosition(x, y);
 			player->SetLevel(this);
@@ -157,22 +211,6 @@ void Level::LoadLevel(int _levelToLoad)
 			m_updateList.push_back(wall);
 			m_worldDrawList.push_back(wall);
 			m_collisionList.push_back(std::make_pair(player, wall));
-		}
-		else if (ch == 'E')
-		{
-			Enemy* enemy = new Enemy();
-	        enemy->Spawn();
-			m_updateList.push_back(enemy);
-			m_worldDrawList.push_back(enemy);
-			m_collisionList.push_back(std::make_pair(player, enemy));
-		}
-		else if (ch == 'C')
-		{
-			Coin* coin = new Coin();
-			coin->SetPosition(x, y);
-			m_updateList.push_back(coin);
-			m_worldDrawList.push_back(coin);
-			m_collisionList.push_back(std::make_pair(coin, player));
 		}
 		else if (ch == 'S')
 		{
@@ -198,7 +236,7 @@ void Level::LoadLevel(int _levelToLoad)
 		{
 			std::cerr << "Unrecognised character in level file:" << ch;
 		}
-
+		
 	}
 
 	inFile.close();
@@ -209,7 +247,6 @@ void Level::LoadLevel(int _levelToLoad)
 	score->SetPlayer(player);
 	m_updateList.push_back(score);
 	m_uiDrawList.push_back(score);
-
 
 	// ADD ENEMY and ABILITY SPAWN LOOP
 	// While level is active
@@ -230,13 +267,28 @@ void Level::AddObjects(GameObject* _toAdd)
 {
 	m_updateList.push_back(_toAdd);
 	m_uiDrawList.push_back(_toAdd);			
-	//m_collisionList.push_back(std::make_pair(_toAdd, wall));
+}
+
+void Level::AddCollision(GameObject* _collider)
+{
+	for (int i = 0; i < m_enemyList.size(); ++i)
+	{
+		if (m_enemyList[i]->isActive())
+		{
+			m_collisionList.push_back(std::make_pair(m_enemyList[i], _collider));
+		}
+	}
 }
 
 
 void Level::ReloadLevel()
 {
+
 	LoadLevel(m_currentLevel);
 }
 
 
+// Add list of enemies to level 
+// Populate list, Create enemy then add to list
+// Add function to level for adding collision with the enemies
+// When bullet is spawned in player call that function

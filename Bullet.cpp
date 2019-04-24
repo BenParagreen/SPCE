@@ -32,7 +32,6 @@ void Bullet::Fire(sf::Vector2f _target)
 
 void Bullet::Collide(GameObject& _collider)
 {
-
     // Check if we are colliding with the enemy
 	Enemy* enemyCollider = dynamic_cast<Enemy*>(&_collider);
 	// check that the collision happened

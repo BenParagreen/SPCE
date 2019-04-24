@@ -14,8 +14,8 @@ Player::Player()
 	, m_score(0)
 	, m_animationSystem()
 	, m_level(nullptr)
-	, currenttime()
-	, timecap(1.0f)
+	, m_currenttime()
+	, m_timecap(1.0f)
 
 {
 	m_sprite.setTexture(AssetManager::GetTexture("graphics/Jet.png"));
@@ -38,7 +38,7 @@ void Player::Update(sf::Time _frameTime)
 	m_velocity.x = 0.0f;
 	m_velocity.y = 0.0f;
 	
-	currenttime += _frameTime;
+	m_currenttime += _frameTime;
 
 	//Use the keyboard function to check which keys are currently held down and solve direction to move
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -66,29 +66,41 @@ void Player::Update(sf::Time _frameTime)
 			m_velocity.x = SPEED - (SPEED / SPEEDANGLE);
 	}
 
-
+	// PLAYER BULLET CODE //
 	// When the player presses the F key it will set the bullets position and call it to spawn
 	// Create a timer to restrict the amount of bullets fired
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
 	{
-		if (currenttime.asSeconds() >= timecap)
+		if (m_currenttime.asSeconds() >= m_timecap)
 		{
 	    // Take player position and use to find bullet position
 		sf::Vector2f position;
 		position = m_sprite.getPosition();
 		position.x = position.x + 120.0f;
 		position.y = position.y + 48.0f;
+
 		//Create the bullet and fire
 		Bullet* bullet = new Bullet();
 		// Fire bullet passing in position
 		bullet->Fire(position);
 		// Send to level for it to take care of bullet once it has appeared on screenff
 		m_level->AddObjects(bullet);
+		m_level->AddCollision(bullet);
 
-		currenttime = sf::seconds(0.0f);
+		m_currenttime = sf::seconds(0.0f);
 		}
 		
 	}
+
+
+	// PLAYER SLOWMO CODE //
+	// Check that the player is ready to use the ability
+	// Once used make everything slow for 5 seconds
+
+
+
+
+
 
 	//Call the update function manually on the parent class
 	// this will move the character
@@ -121,8 +133,7 @@ void Player::Collide(GameObject& _collider)
 
 	Enemy* enemyCollider = dynamic_cast<Enemy*>(&_collider);
 
-	//If it was a wall we hit we need to move ourselves outside the walls bounds
-	// aka, our previous position
+	// If we collide with an enemy we die
 	if (enemyCollider != nullptr)
 	{
 		Kill();

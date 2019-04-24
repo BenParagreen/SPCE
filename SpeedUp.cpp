@@ -6,12 +6,14 @@
 #define POS_Y_MIN 100
 #define POS_Y_MAX 900
 
+#define VELOCITY -100
+
 
 SpeedUp::SpeedUp()
 	: Pickup()
 {
 	m_sprite.setTexture(AssetManager::GetTexture("graphics/SpeedUp.png"));
-	m_velocity.x = -40.0f;
+	m_velocity.x = VELOCITY;
 	m_velocity.y = 0.0f;
 }
 

@@ -75,6 +75,8 @@ int main()
 		// Clear the window to a single colour
 		gameWindow.clear(sf::Color::Black);
 
+		
+
 		// Pass draw to level
 		level.Draw(gameWindow);
 

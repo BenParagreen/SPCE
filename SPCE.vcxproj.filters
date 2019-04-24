@@ -21,9 +21,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>GameCode</Filter>
     </ClCompile>
-    <ClCompile Include="Coin.cpp">
-      <Filter>GameCode</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>GameCode</Filter>
     </ClCompile>
@@ -63,6 +60,9 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>GameCode</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>GameCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\AssetManager.h">
@@ -76,9 +76,6 @@
     </ClInclude>
     <ClInclude Include="Framework\TextObject.h">
       <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Coin.h">
-      <Filter>GameCode</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>GameCode</Filter>
@@ -114,6 +111,9 @@
       <Filter>GameCode</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
+      <Filter>GameCode</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
       <Filter>GameCode</Filter>
     </ClInclude>
   </ItemGroup>
