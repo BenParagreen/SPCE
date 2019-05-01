@@ -15,8 +15,6 @@ public:
 	virtual void Collide(GameObject& _collider);
 
 	// Public Player methods
-	int GetScore();
-	void ChangeScore(int _change);
 	bool GetAbility();
 	void HasAbility(bool _keychange);
 	void Kill();
@@ -24,7 +22,6 @@ public:
 
 private:
 
-	int m_score;
 	bool m_abilitycollected;
 	AnimationSystem m_animationSystem;
 	Level* m_level;

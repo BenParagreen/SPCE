@@ -4,22 +4,29 @@
 
 Score::Score()
 	: TextObject() // Initialise parent class
-	, m_player (nullptr)
+	, m_level (nullptr)
 {
 	m_Text.setFont(AssetManager::GetFont("fonts/mainFont.ttf"));
 	m_Text.setString("Score:0");
+
+
+	sf::Vector2f position;
+	position.y = 10;
+	position.x = 110;
+	SetPosition(position);
+
 }
 
 void Score::Update(sf::Time _frametime)
 {
-	if (m_player != nullptr)
+	if (m_level != nullptr)
 	{
-		int score = m_player->GetScore();
+		int score = m_level->GetScore();
 		m_Text.setString("Score: "+ std::to_string(score));
 	}	
 }
 
-void Score::SetPlayer(Player* _player)
+void Score::SetGame(Level* _playthrough)
 {
-	m_player = _player;
+	m_level = _playthrough;
 }

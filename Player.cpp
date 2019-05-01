@@ -11,7 +11,6 @@
 
 Player::Player()
 	: MovingObject()
-	, m_score(0)
 	, m_animationSystem()
 	, m_level(nullptr)
 	, m_currenttime()
@@ -85,7 +84,7 @@ void Player::Update(sf::Time _frameTime)
 		bullet->Fire(position);
 		// Send to level for it to take care of bullet once it has appeared on screenff
 		m_level->AddObjects(bullet);
-		m_level->AddCollision(bullet);
+		m_level->AddEnemyCollision(bullet);
 
 		m_currenttime = sf::seconds(0.0f);
 		}
@@ -122,15 +121,12 @@ void Player::Collide(GameObject& _collider)
 	if (wallCollider != nullptr)
 	{
 		//The player hit a wall
-		//Returm to our previous position that we just moved from
+		//Return to our previous position that we just moved from
 		m_sprite.setPosition(m_previousPosition);
-
-		// NOTE //
-		// This is not the best method for creating wall collision
-		// It results in "sticky" wall (does not allow you to slide against them
-		// It is quicker and easier to implement though so it is being used in this game
 	}
 
+
+	// Check if it is an enemy we are currently colliding with
 	Enemy* enemyCollider = dynamic_cast<Enemy*>(&_collider);
 
 	// If we collide with an enemy we die
@@ -138,17 +134,6 @@ void Player::Collide(GameObject& _collider)
 	{
 		Kill();
 	}
-}
-
-
-int Player::GetScore()
-{
-	return m_score;
-}
-
-void Player::ChangeScore(int _change)
-{
-	m_score += _change;
 }
 
 bool Player::GetAbility()

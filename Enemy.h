@@ -18,6 +18,8 @@ public:
 
 	//Override
 	virtual void Collide(GameObject& _collider);
+	
+	void SetLevel(Level* _newLevel);
 
 private:
 
@@ -30,5 +32,6 @@ private:
 	sf::Time m_currenttime2;
 	float m_shoottimecap;
 
+	int m_scoreValue;
 };
 

@@ -3,8 +3,10 @@
 
 //Library Includes
 #include "Enemy.h"
+#include "Player.h"
 #include "Level.h"
 #include "Bullet.h"
+#include "EnemyBullet.h"
 #include "Framework/AssetManager.h"
 
 // Constants
@@ -21,7 +23,8 @@ Enemy::Enemy()
 	, m_currenttime()
 	, m_movetimecap(5.0f)
 	, m_currenttime2()
-	, m_shoottimecap(10.0f)
+	, m_shoottimecap(5.0f)
+	, m_scoreValue(10)
 {
 	m_sprite.setTexture(AssetManager::GetTexture("graphics/EnemyShip.png"));
 	m_velocity.x = rand() % (VELOCITY_X_MAX - VELOCITY_X_MIN) + VELOCITY_X_MIN;
@@ -44,25 +47,25 @@ void Enemy::Update(sf::Time _frameTime)
 
 	//Every couple of seconds fire a bullet
 
-	//m_currenttime2 += _frameTime;
+	m_currenttime2 += _frameTime;
 
-	//if (m_currenttime2.asSeconds() >= m_shoottimecap)
-	//{
+	if (m_currenttime2.asSeconds() >= m_shoottimecap)
+	{
 		// Take ship position and use to find bullet position
-		//sf::Vector2f position;
-		//position = m_sprite.getPosition();
-		//position.x = position.x + 120.0f;
-		//position.y = position.y + 48.0f;
+		sf::Vector2f position;
+		position = m_sprite.getPosition();
+		position.x = position.x + 120.0f;
+		position.y = position.y + 48.0f;
 
 		//Create the bullet and fire
-		//EnemyBullet* enemybullet = new EnemyBullet();
+	    EnemyBullet* enemybullet = new EnemyBullet();
 		// Fire bullet passing in position
-		//enemybullet->Fire(position);
+		enemybullet->Fire(position);
 		// Send to level for it to take care of bullet once it has appeared on screenff
-		//m_level->AddObjects(enemybullet);
+		m_level->AddObjects(enemybullet);
 
-		//m_currenttime2 = sf::seconds(0.0f);
-	//}
+		m_currenttime2 = sf::seconds(0.0f);
+	}
 
 }
 
@@ -71,10 +74,11 @@ void Enemy::Spawn()
 	// Choose a random y position
 	sf::Vector2f position;
 	position.y = rand() % (POS_Y_MAX - POS_Y_MIN) + POS_Y_MIN;
-	position.x = 1900.0f;
+	position.x = 2000.0f;
 
 	SetPosition(position);
 }
+
 
 void Enemy::Collide(GameObject& _collider)
 {
@@ -85,4 +89,12 @@ void Enemy::Collide(GameObject& _collider)
 
 		m_active = false;
 	}
+
+	//if colliding with anything else
+	// do nothing
+}
+
+void Enemy::SetLevel(Level* _newLevel)
+{
+	m_level = _newLevel;
 }

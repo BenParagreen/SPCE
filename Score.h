@@ -13,10 +13,8 @@ public:
 	virtual void Update(sf::Time _frametime);
 
 	// Public Score Methods
-	void SetPlayer(Player* _player);
-
-	void Spawn();
+	void SetGame(Level* _player);
 
 private:
-	Player* m_player;
+	Level* m_level;
 };

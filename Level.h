@@ -16,24 +16,34 @@ public:
     void Update(sf::Time _frametime);
 	void LoadLevel(int _levelToLoad);
 	void AddObjects(GameObject* _toAdd);
-	void AddCollision(GameObject* _collider );
+	void AddEnemyCollision(GameObject* _collider );
 	void ReloadLevel();
+
+	int GetScore();
+	void ChangeScore(int _change);
 
 
 private:
 
 	int m_currentLevel;
+	GameObject* m_instance;
 	GameObject* m_player;
 	std::vector<GameObject*> m_updateList;
 	std::vector<GameObject*> m_worldDrawList;
 	std::vector<GameObject*> m_uiDrawList;
 
+	// List for enemy collisions
     std::vector<Enemy*> m_enemyList;
+
+	//The score of the player
+	int m_score;
 	
 
+	// Timers forthe enemy spawn loop
 	sf::Time m_currenttime;
 	float m_enemytimecap;
 
+	// Timer for the ability spawn loop
 	sf::Time m_currenttime2;
 	float m_abilitytimecap;
 

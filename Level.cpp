@@ -11,14 +11,20 @@
 #include <iostream>
 #include <fstream>
 
+//Define
+
+#define OFFSET 100.0f
+
 Level::Level()
 	: m_currentLevel(0)
+	, m_instance(nullptr)
 	, m_player(nullptr)
 	, m_updateList()
 	, m_worldDrawList()
 	, m_uiDrawList()
 	, m_collisionList()
 	, m_enemyList()
+	, m_score(0)
 	, m_currenttime()
 	, m_enemytimecap(3.0f)
 	, m_currenttime2()
@@ -27,10 +33,17 @@ Level::Level()
 	LoadLevel(1);
 }
 
+
 void Level::Draw(sf::RenderTarget& _target)
 {
 
+	//Move the camera to the right slightly to keep left most wall off screen
+
 	sf::View camera = _target.getDefaultView();
+	camera.setCenter(
+		camera.getCenter().x + OFFSET,
+		camera.getCenter().y
+	);
 
 
 	for (int i = 0; i < m_worldDrawList.size(); ++i)
@@ -39,11 +52,11 @@ void Level::Draw(sf::RenderTarget& _target)
 		{
 			m_worldDrawList[i]->Draw(_target);
 		}
-
 	}
 
 	// Draw UI to the window
-	_target.setView(_target.getDefaultView());
+	_target.setView(camera);
+
 	// Draw UI objects
 
 	for (int i = 0; i < m_uiDrawList.size(); ++i)
@@ -77,30 +90,22 @@ void Level::Update(sf::Time _frameTime)
 			if (handler->GetBounds().intersects(collider->GetBounds()))
 			{
 				handler->Collide(*collider);
+				collider->Collide(*handler);
 			}
 		}
 	}
 
-	// Add Enemies to an Enemylist in order to handle collisions when a bullet connects
-
-	for (int i = 0; i < m_enemyList.size(); ++i)
-	{
-		if (m_enemyList[i]->isActive())
-		{
-			m_enemyList[i]->Update(_frameTime);
-		}
-	}
 
 	// TIMER FOR ENEMY SPAWNING //
 	m_currenttime += _frameTime;
 
 	if (m_currenttime.asSeconds() >= m_enemytimecap)
 	{
-		//Spawn new enemy
+		//Create new enemy
 		Enemy* enemy = new Enemy();
-		
+		enemy->SetLevel(this);
 
-		// Fire bullet passing in position
+		// Call enemy spawn function
 		enemy->Spawn();
 		// Add enemy to level
 		AddObjects(enemy);
@@ -212,14 +217,6 @@ void Level::LoadLevel(int _levelToLoad)
 			m_worldDrawList.push_back(wall);
 			m_collisionList.push_back(std::make_pair(player, wall));
 		}
-		else if (ch == 'S')
-		{
-			SpeedUp* speedup = new SpeedUp();
-			speedup->Spawn();
-			m_updateList.push_back(speedup);
-			m_worldDrawList.push_back(speedup);
-			m_collisionList.push_back(std::make_pair(speedup, player));
-		}
 		else if (ch == 'O')
 		{
 			AbilityHolder* abilityholder = new AbilityHolder();
@@ -242,24 +239,11 @@ void Level::LoadLevel(int _levelToLoad)
 	inFile.close();
 
 	// Create objects
-	
+
 	Score* score = new Score();
-	score->SetPlayer(player);
+	score->SetGame(m_instance);
 	m_updateList.push_back(score);
 	m_uiDrawList.push_back(score);
-
-	// ADD ENEMY and ABILITY SPAWN LOOP
-	// While level is active
-	//while (m_levelTrue = true)
-	//{
-		// Spawn enemy every _ seconds,
-		// if timesinceenemyspawned > enemytimer Spawn another enemy
-		// After spawned, reduce spawn timer
-
-
-		// Spawn Ability every _ seconds
-	//}
-
 }
 
 //Whenever A new object is made during play, Add it to the list of game objects
@@ -269,7 +253,7 @@ void Level::AddObjects(GameObject* _toAdd)
 	m_uiDrawList.push_back(_toAdd);			
 }
 
-void Level::AddCollision(GameObject* _collider)
+void Level::AddEnemyCollision(GameObject* _collider)
 {
 	for (int i = 0; i < m_enemyList.size(); ++i)
 	{
@@ -288,7 +272,12 @@ void Level::ReloadLevel()
 }
 
 
-// Add list of enemies to level 
-// Populate list, Create enemy then add to list
-// Add function to level for adding collision with the enemies
-// When bullet is spawned in player call that function
+int Level ::GetScore()
+{
+	return m_score;
+}
+
+void Level::ChangeScore(int _change)
+{
+	m_score += _change;
+}
