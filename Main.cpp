@@ -20,7 +20,8 @@ int main()
 
 	// Window - to draw to the screen
 	sf::RenderWindow gameWindow;
-	gameWindow.create(sf::VideoMode::getDesktopMode(), "Button Masher", sf::Style::Titlebar | sf::Style::Close);
+	gameWindow.create(sf::VideoMode::getDesktopMode(), "SPCE", sf::Style::Titlebar | sf::Style::Close);
+
 
 	// Seed our random number generator 
 	srand(time(NULL));
@@ -31,7 +32,7 @@ int main()
 	// Game Clock - to keep track of time passed each frame
 	sf::Clock gameClock;
 
-	//Create the game Level]
+	//Create the game Level
 	Level level;
 
 	// -----------------------------------------------
@@ -48,8 +49,6 @@ int main()
 		sf::Event gameEvent;
 		while (gameWindow.pollEvent(gameEvent))
 		{
-			// TODO: Pass event to input objects
-
 
 			// Did the player try to close the window?
 			if (gameEvent.type == sf::Event::Closed)

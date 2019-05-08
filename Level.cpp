@@ -1,4 +1,7 @@
 #include "Level.h"
+#include "Framework/AssetManager.h"
+
+#include "Background.h"
 #include "Wall.h"
 #include "AbilityHolder.h"
 #include "Player.h"
@@ -21,6 +24,7 @@ Level::Level()
 	, m_updateList()
 	, m_worldDrawList()
 	, m_uiDrawList()
+	, m_background()
 	, m_collisionList()
 	, m_enemyList()
 	, m_score(0)
@@ -180,11 +184,23 @@ void Level::LoadLevel(int _levelToLoad)
 	const float X_SPACE = 100.0f;
 	const float Y_SPACE = 100.0f;
 
+	// Create the background
+	for (int i = 0; i < 3; ++i)
+	{
+		Background* background = new Background();
+
+		// Call background spawn function
+		background->Spawn();
+		// Add background to level
+		AddObjects(background);
+	}
+
 	// create the player since other objects need to reference it
 	Player* player = new Player();
 	m_player = player;
 
-	// Reading each character 1 by 1 from the file
+
+	// Reading each character 1 by 1 from the fileff
 	char ch;
     //Each time try to read next character in the text document
 	// If successful, execute body of loop
@@ -250,7 +266,7 @@ void Level::LoadLevel(int _levelToLoad)
 void Level::AddObjects(GameObject* _toAdd)
 {
 	m_updateList.push_back(_toAdd);
-	m_uiDrawList.push_back(_toAdd);			
+	m_worldDrawList.push_back(_toAdd);			
 }
 
 void Level::AddEnemyCollision(GameObject* _collider)
@@ -289,3 +305,25 @@ void Level::ChangeScore(int _change)
 {
 	m_score += _change;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////
+// BACKGROUND IDEA
+// Spawn background (Must be behind everything
+// move background left
+// Spawn another next to current on right
+// Repeat
+
+// When ability in use
+// switch background sprite

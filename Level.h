@@ -47,5 +47,6 @@ private:
 	sf::Time m_currenttime2;
 	float m_abilitytimecap;
 
+	std::vector< std::vector < sf::Sprite > > m_background;
 	std::vector<std::pair<GameObject*, GameObject*>> m_collisionList;
 };
