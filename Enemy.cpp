@@ -13,17 +13,19 @@
 #define POS_Y_MIN 100
 #define POS_Y_MAX 900
 
-#define VELOCITY_X_MIN -150
-#define VELOCITY_X_MAX -20
+#define VELOCITY_X_MIN -200
+#define VELOCITY_X_MAX -40
+
+
 
 
 Enemy::Enemy()
 	: MovingObject()
 	, m_level(nullptr)
 	, m_currenttime()
-	, m_movetimecap(5.0f)
+	, m_movetimecap(3.0f)
 	, m_currenttime2()
-	, m_shoottimecap(5.0f)
+	, m_shoottimecap(2.0f)
 	, m_scoreValue(10)
 {
 	m_sprite.setTexture(AssetManager::GetTexture("graphics/EnemyShip.png"));
@@ -36,10 +38,10 @@ void Enemy::Update(sf::Time _frameTime)
 	//Call the update function manually on the parent class
 	// this will actually move the character
 	MovingObject::Update(_frameTime);
-
+	
 	m_currenttime += _frameTime;
 
-	//After a few seconds stop
+	//After a few seconds stop and change value of time spent moving
 	if (m_currenttime.asSeconds() >= m_movetimecap)
 	{
 		m_velocity.x = 0;
@@ -54,16 +56,18 @@ void Enemy::Update(sf::Time _frameTime)
 		// Take ship position and use to find bullet position
 		sf::Vector2f position;
 		position = m_sprite.getPosition();
-		position.x = position.x + 120.0f;
-		position.y = position.y + 48.0f;
+		position.x = position.x;
+		position.y = position.y + 48;
 
 		//Create the bullet and fire
 	    EnemyBullet* enemybullet = new EnemyBullet();
 		// Fire bullet passing in position
 		enemybullet->Fire(position);
+		
 		// Send to level for it to take care of bullet once it has appeared on screenff
 		m_level->AddObjects(enemybullet);
-
+        m_level->AddPlayerCollision(enemybullet);
+		//Reset Timer
 		m_currenttime2 = sf::seconds(0.0f);
 	}
 
@@ -86,7 +90,7 @@ void Enemy::Collide(GameObject& _collider)
 
 	if (bulletCollider != nullptr)
 	{
-
+		m_level->ChangeScore(10);
 		m_active = false;
 	}
 

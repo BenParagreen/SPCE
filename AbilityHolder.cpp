@@ -11,9 +11,10 @@ AbilityHolder::AbilityHolder()
 
 void AbilityHolder::Update(sf::Time _frametime)
 {
-	// If the player pick up ability
+	// If the player is active
 	if (m_player != nullptr)
 	{
+
 		//check that the player picked up speedup
 		bool speedup = m_player->GetAbility();
 		// If pickup was speedup change the stored sprite to show speed up 

@@ -4,6 +4,8 @@
 #include "Wall.h"
 #include "Bullet.h"
 #include "Enemy.h"
+#include "EnemyBullet.h"
+#include "SpeedUp.h"
 
 //Constants
 #define SPEED 500.0f
@@ -125,12 +127,21 @@ void Player::Collide(GameObject& _collider)
 		m_sprite.setPosition(m_previousPosition);
 	}
 
+	// Check if it is an speedup we are currently colliding with
+	SpeedUp* speedCollider = dynamic_cast<SpeedUp*>(&_collider);
+
+	// If we collide with a speedup we store it
+	if (speedCollider != nullptr)
+	{
+		HasAbility(true);
+	}
+
 
 	// Check if it is an enemy we are currently colliding with
-	Enemy* enemyCollider = dynamic_cast<Enemy*>(&_collider);
+	EnemyBullet* bulletCollider = dynamic_cast<EnemyBullet*>(&_collider);
 
 	// If we collide with an enemy we die
-	if (enemyCollider != nullptr)
+	if (bulletCollider != nullptr)
 	{
 		Kill();
 	}

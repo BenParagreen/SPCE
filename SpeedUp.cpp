@@ -35,7 +35,7 @@ void SpeedUp::Spawn()
 	// Choose a random y position
 	sf::Vector2f position;
 	position.y = rand() % (POS_Y_MAX - POS_Y_MIN) + POS_Y_MIN;
-	position.x = 1800.0f;
+	position.x = 2000.0f;
 
 	SetPosition(position);
 }

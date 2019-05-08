@@ -17,7 +17,6 @@
 
 Level::Level()
 	: m_currentLevel(0)
-	, m_instance(nullptr)
 	, m_player(nullptr)
 	, m_updateList()
 	, m_worldDrawList()
@@ -26,9 +25,9 @@ Level::Level()
 	, m_enemyList()
 	, m_score(0)
 	, m_currenttime()
-	, m_enemytimecap(3.0f)
+	, m_enemytimecap(2.0f)
 	, m_currenttime2()
-	, m_abilitytimecap(60.0f)
+	, m_abilitytimecap(20.0f)
 {
 	LoadLevel(1);
 }
@@ -121,15 +120,16 @@ void Level::Update(sf::Time _frameTime)
 
 	if (m_currenttime2.asSeconds() >= m_abilitytimecap)
 	{
-		//Spawn new enemy
+		//Spawn new speedup ability
 		SpeedUp* speedup = new SpeedUp();
-		// Fire bullet passing in position
 		speedup->Spawn();
-		// Add enemy to level
+		// Add ability to level
 		AddObjects(speedup);
+		AddPlayerCollision(speedup);
 
 		m_currenttime2 = sf::seconds(0.0f);
 	}
+
 
 }
 
@@ -241,7 +241,7 @@ void Level::LoadLevel(int _levelToLoad)
 	// Create objects
 
 	Score* score = new Score();
-	score->SetGame(m_instance);
+	score->SetLevel(this);
 	m_updateList.push_back(score);
 	m_uiDrawList.push_back(score);
 }
@@ -264,6 +264,14 @@ void Level::AddEnemyCollision(GameObject* _collider)
 	}
 }
 
+
+void Level::AddPlayerCollision(GameObject* _collider)
+{
+	if (m_player->isActive())
+	{
+		m_collisionList.push_back(std::make_pair(m_player, _collider));
+	}
+}
 
 void Level::ReloadLevel()
 {

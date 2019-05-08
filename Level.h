@@ -17,6 +17,7 @@ public:
 	void LoadLevel(int _levelToLoad);
 	void AddObjects(GameObject* _toAdd);
 	void AddEnemyCollision(GameObject* _collider );
+	void AddPlayerCollision(GameObject* _collider);
 	void ReloadLevel();
 
 	int GetScore();
@@ -26,7 +27,6 @@ public:
 private:
 
 	int m_currentLevel;
-	GameObject* m_instance;
 	GameObject* m_player;
 	std::vector<GameObject*> m_updateList;
 	std::vector<GameObject*> m_worldDrawList;

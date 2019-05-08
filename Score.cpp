@@ -26,7 +26,7 @@ void Score::Update(sf::Time _frametime)
 	}	
 }
 
-void Score::SetGame(Level* _playthrough)
+void Score::SetLevel(Level* _playthrough)
 {
 	m_level = _playthrough;
 }
