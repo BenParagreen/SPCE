@@ -289,6 +289,31 @@ void Level::AddPlayerCollision(GameObject* _collider)
 	}
 }
 
+void Level::SlowMo(bool _activeSlowMo)
+{
+
+	if (_activeSlowMo == true)
+	{
+		for (int i = 0; i < m_updateList.size(); ++i)
+		{
+			if (m_updateList[i]->isActive())
+			{
+				m_updateList[i]->GetSlowMo(true);
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < m_updateList.size(); ++i)
+		{
+			if (m_updateList[i]->isActive())
+			{
+				m_updateList[i]->GetSlowMo(false);
+			}
+		}
+	}
+}
+
 void Level::ReloadLevel()
 {
 

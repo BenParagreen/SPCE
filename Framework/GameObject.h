@@ -19,7 +19,9 @@ public:
 	virtual void SetPosition(float _x, float _y);
 	virtual sf::Vector2f GetPosition();
 	bool isActive();
+	bool GetSlowMo(bool _slowed);
 
 protected:
 	bool m_active;
+	bool m_slowed;
 };

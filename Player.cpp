@@ -17,6 +17,10 @@ Player::Player()
 	, m_level(nullptr)
 	, m_currenttime()
 	, m_timecap(1.0f)
+	, m_slowtime()
+    , m_slowtimecap(2.0f)
+	, m_slowtimeavailable()
+	, m_slowtimeavailablecap(5.0f)
 
 {
 	m_sprite.setTexture(AssetManager::GetTexture("graphics/Jet.png"));
@@ -98,9 +102,24 @@ void Player::Update(sf::Time _frameTime)
 	// Check that the player is ready to use the ability
 	// Once used make everything slow for 5 seconds
 
+	m_slowtimeavailable += _frameTime;
 
+	//After a few seconds stop and change value of time spent moving
+	if (m_slowtimeavailable.asSeconds() >= m_slowtimeavailablecap && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	{
+	    
+		m_slowtime += _frameTime;
 
-
+		if (m_slowtime.asSeconds() <= m_slowtimecap)
+		{
+			m_level->SlowMo(true);
+		}
+		else
+		{
+			m_level->SlowMo(false);
+			m_slowtime = sf::seconds(0.0f);;
+		}
+	}
 
 
 	//Call the update function manually on the parent class

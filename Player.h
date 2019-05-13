@@ -29,4 +29,11 @@ private:
 	sf::Time m_currenttime;
 	float m_timecap;
 
+	sf::Time m_slowtime;
+	float m_slowtimecap;
+
+	sf::Time m_slowtimeavailable;
+	float m_slowtimeavailablecap;
+
+
 };

@@ -33,5 +33,7 @@ private:
 	float m_shoottimecap;
 
 	int m_scoreValue;
+
+	sf::Vector2f m_oldvelocity;
 };
 

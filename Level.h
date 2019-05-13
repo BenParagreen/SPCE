@@ -18,6 +18,7 @@ public:
 	void AddObjects(GameObject* _toAdd);
 	void AddEnemyCollision(GameObject* _collider );
 	void AddPlayerCollision(GameObject* _collider);
+	void SlowMo(bool _activeSlowMo);
 	void ReloadLevel();
 
 	int GetScore();

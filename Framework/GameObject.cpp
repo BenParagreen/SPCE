@@ -3,6 +3,7 @@
 
 GameObject::GameObject()
 	:m_active(true)
+	,m_slowed(false)
 {
 
 }
@@ -41,6 +42,12 @@ void GameObject::SetPosition(float _x, float _y)
 bool GameObject::isActive()
 {
 	return m_active;
+}
+
+bool GameObject::GetSlowMo(bool _slowed)
+{
+	m_slowed = _slowed;
+	return m_slowed;
 }
 
 sf::Vector2f GameObject :: GetPosition()
