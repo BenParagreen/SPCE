@@ -20,20 +20,18 @@ void EnemyBullet::Update(sf::Time _frameTime)
 	MovingObject::Update(_frameTime);
 
 
-		// Code if the object has been slowed down
-		if (m_slowed == true)
-		{
-			// Store old velocity to revert back to
-			m_oldvelocity.x = m_velocity.x;
+    // Code if the object has been slowed down
+	if (m_slowed == true)
+	{
+		// Set new velocity
+		m_velocity.x = SPEED / 4;
+	}
 
-			// Set new velocity
-			m_velocity.x = SPEED / 4;
-		}
-		else
-		{
-			// Revert back to original speed
-			m_velocity.x = m_oldvelocity.x;
-		}
+	if (m_slowed = false)
+	{
+		// Revert back to original speed
+		m_velocity.x = SPEED;
+	}
 }
 
 void EnemyBullet::Fire(sf::Vector2f _target)

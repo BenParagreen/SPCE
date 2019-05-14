@@ -59,12 +59,16 @@ void Background::Update(sf::Time _frameTime)
 			m_oldvelocity.x = m_velocity.x;
 
 			// Set new velocity
-			m_velocity.x = SPEED / 3;
+			m_velocity.x = SPEED * 3;
+
+			m_sprite.setTexture(AssetManager::GetTexture("graphics/Background.png"));
+
 		}
-		else
-		{
-			// Revert back to original speed
-			m_velocity.x = m_oldvelocity.x;
-		}
+
+	}		
+	if (m_slowed = false)
+	{
+		// Revert back to original speed
+		m_velocity.x = m_oldvelocity.x;
 	}
 }

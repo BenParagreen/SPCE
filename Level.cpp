@@ -302,7 +302,7 @@ void Level::SlowMo(bool _activeSlowMo)
 			}
 		}
 	}
-	else
+	if (_activeSlowMo == false)
 	{
 		for (int i = 0; i < m_updateList.size(); ++i)
 		{

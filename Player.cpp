@@ -102,6 +102,10 @@ void Player::Update(sf::Time _frameTime)
 	// Check that the player is ready to use the ability
 	// Once used make everything slow for 5 seconds
 
+
+
+	// current problem: Only objects already on screen shall change state, And never revert back. 
+
 	m_slowtimeavailable += _frameTime;
 
 	//After a few seconds stop and change value of time spent moving
@@ -113,14 +117,16 @@ void Player::Update(sf::Time _frameTime)
 		if (m_slowtime.asSeconds() <= m_slowtimecap)
 		{
 			m_level->SlowMo(true);
-		}
-		else
-		{
-			m_level->SlowMo(false);
-			m_slowtime = sf::seconds(0.0f);;
+			
+			m_slowtimeavailable = sf::seconds(0.0f);
 		}
 	}
 
+	if(m_slowtime.asSeconds() > m_slowtimecap)
+	{
+		m_level->SlowMo(false);
+		m_slowtime = sf::seconds(0.0f);;
+	}
 
 	//Call the update function manually on the parent class
 	// this will move the character
