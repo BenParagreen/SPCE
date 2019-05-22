@@ -13,12 +13,6 @@ public:
 
 	void Fire(sf::Vector2f _target);
 
-	
 	//Overriding Methods
 	void Collide(GameObject& _collider);
-
-private:
-	
-	sf::Vector2f m_oldvelocity;
-
 }; 

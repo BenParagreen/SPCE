@@ -18,10 +18,11 @@ Player::Player()
 	, m_currenttime()
 	, m_timecap(1.0f)
 	, m_slowtime()
-    , m_slowtimecap(2.0f)
+    , m_slowtimecap(4.0f)
 	, m_slowtimeavailable()
-	, m_slowtimeavailablecap(5.0f)
-
+	, m_slowtimeavailablecap(10.0f)
+	, m_slowmostatus(false)
+	, m_begincountdown(false)
 {
 	m_sprite.setTexture(AssetManager::GetTexture("graphics/Jet.png"));
 
@@ -78,31 +79,28 @@ void Player::Update(sf::Time _frameTime)
 	{
 		if (m_currenttime.asSeconds() >= m_timecap)
 		{
-	    // Take player position and use to find bullet position
-		sf::Vector2f position;
-		position = m_sprite.getPosition();
-		position.x = position.x + 120.0f;
-		position.y = position.y + 48.0f;
+			// Take player position and use to find bullet position
+			sf::Vector2f position;
+			position = m_sprite.getPosition();
+			position.x = position.x + 120.0f;
+			position.y = position.y + 48.0f;
 
-		//Create the bullet and fire
-		Bullet* bullet = new Bullet();
-		// Fire bullet passing in position
-		bullet->Fire(position);
-		// Send to level for it to take care of bullet once it has appeared on screenff
-		m_level->AddObjects(bullet);
-		m_level->AddEnemyCollision(bullet);
+			//Create the bullet and fire
+			Bullet* bullet = new Bullet();
+			// Fire bullet passing in position
+			bullet->Fire(position);
+			// Send to level for it to take care of bullet once it has appeared on screenff
+			m_level->AddObjects(bullet);
+			m_level->AddEnemyCollision(bullet);
 
-		m_currenttime = sf::seconds(0.0f);
+			m_currenttime = sf::seconds(0.0f);
 		}
-		
 	}
 
 
 	// PLAYER SLOWMO CODE //
 	// Check that the player is ready to use the ability
 	// Once used make everything slow for 5 seconds
-
-
 
 	// current problem: Only objects already on screen shall change state, And never revert back. 
 
@@ -111,22 +109,33 @@ void Player::Update(sf::Time _frameTime)
 	//After a few seconds stop and change value of time spent moving
 	if (m_slowtimeavailable.asSeconds() >= m_slowtimeavailablecap && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 	{
-	    
-		m_slowtime += _frameTime;
+        
+		m_begincountdown = true;
 
 		if (m_slowtime.asSeconds() <= m_slowtimecap)
 		{
 			m_level->SlowMo(true);
+			m_slowmostatus = true;
+			
 			
 			m_slowtimeavailable = sf::seconds(0.0f);
 		}
 	}
+	
+	if (m_begincountdown == true)
+	{
+       m_slowtime += _frameTime;
+	}
+	
 
 	if(m_slowtime.asSeconds() > m_slowtimecap)
 	{
 		m_level->SlowMo(false);
+		m_slowmostatus = false;
+		m_begincountdown = false;
 		m_slowtime = sf::seconds(0.0f);;
 	}
+	
 
 	//Call the update function manually on the parent class
 	// this will move the character
@@ -192,5 +201,11 @@ void Player::Kill()
 void Player::SetLevel(Level* _newLevel)
 {
 	m_level = _newLevel;
+}
+
+
+bool Player::GetSlowMo()
+{
+	return m_slowmostatus;
 }
 

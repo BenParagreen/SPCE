@@ -5,6 +5,8 @@
 #include "Enemy.h"
 #include <vector>
 
+class Player;
+
 class Level
 {
 
@@ -28,7 +30,7 @@ public:
 private:
 
 	int m_currentLevel;
-	GameObject* m_player;
+	Player* m_player;
 	std::vector<GameObject*> m_updateList;
 	std::vector<GameObject*> m_worldDrawList;
 	std::vector<GameObject*> m_uiDrawList;
@@ -38,7 +40,9 @@ private:
 
 	//The score of the player
 	int m_score;
-	
+
+
+	int m_slowmo;
 
 	// Timers forthe enemy spawn loop
 	sf::Time m_currenttime;

@@ -19,12 +19,17 @@ public:
 	void HasAbility(bool _keychange);
 	void Kill();
 	void SetLevel(Level* _newLevel);
+	bool GetSlowMo();
+	
+	
 
 private:
 
 	bool m_abilitycollected;
 	AnimationSystem m_animationSystem;
 	Level* m_level;
+
+	bool m_slowmostatus;
 
 	sf::Time m_currenttime;
 	float m_timecap;
@@ -35,5 +40,6 @@ private:
 	sf::Time m_slowtimeavailable;
 	float m_slowtimeavailablecap;
 
+	bool m_begincountdown;
 
 };

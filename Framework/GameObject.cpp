@@ -44,7 +44,7 @@ bool GameObject::isActive()
 	return m_active;
 }
 
-bool GameObject::GetSlowMo(bool _slowed)
+bool GameObject::SlowMo(bool _slowed)
 {
 	m_slowed = _slowed;
 	return m_slowed;

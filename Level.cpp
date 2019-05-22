@@ -184,6 +184,11 @@ void Level::LoadLevel(int _levelToLoad)
 	const float X_SPACE = 100.0f;
 	const float Y_SPACE = 100.0f;
 
+
+	// create the player since other objects need to reference it
+	Player* player = new Player();
+	m_player = player;
+
 	// Create the background
 	for (int i = 0; i < 3; ++i)
 	{
@@ -194,11 +199,6 @@ void Level::LoadLevel(int _levelToLoad)
 		// Add background to level
 		AddObjects(background);
 	}
-
-	// create the player since other objects need to reference it
-	Player* player = new Player();
-	m_player = player;
-
 
 	// Reading each character 1 by 1 from the fileff
 	char ch;
@@ -266,7 +266,10 @@ void Level::LoadLevel(int _levelToLoad)
 void Level::AddObjects(GameObject* _toAdd)
 {
 	m_updateList.push_back(_toAdd);
-	m_worldDrawList.push_back(_toAdd);			
+	m_worldDrawList.push_back(_toAdd);	
+
+	// Whenever a new object is added. We should check if it is currently slowmo
+	_toAdd->SlowMo(m_player->GetSlowMo());
 }
 
 void Level::AddEnemyCollision(GameObject* _collider)
@@ -289,6 +292,7 @@ void Level::AddPlayerCollision(GameObject* _collider)
 	}
 }
 
+
 void Level::SlowMo(bool _activeSlowMo)
 {
 
@@ -298,7 +302,7 @@ void Level::SlowMo(bool _activeSlowMo)
 		{
 			if (m_updateList[i]->isActive())
 			{
-				m_updateList[i]->GetSlowMo(true);
+				m_updateList[i]->SlowMo(true);
 			}
 		}
 	}
@@ -308,11 +312,12 @@ void Level::SlowMo(bool _activeSlowMo)
 		{
 			if (m_updateList[i]->isActive())
 			{
-				m_updateList[i]->GetSlowMo(false);
+				m_updateList[i]->SlowMo(false);
 			}
 		}
 	}
 }
+
 
 void Level::ReloadLevel()
 {
@@ -330,16 +335,6 @@ void Level::ChangeScore(int _change)
 {
 	m_score += _change;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

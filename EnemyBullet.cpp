@@ -19,20 +19,20 @@ void EnemyBullet::Update(sf::Time _frameTime)
 	// this will actually move the bullet
 	MovingObject::Update(_frameTime);
 
-
     // Code if the object has been slowed down
 	if (m_slowed == true)
 	{
 		// Set new velocity
-		m_velocity.x = SPEED / 4;
+		m_velocity.x = SPEED / 5;
 	}
 
-	if (m_slowed = false)
+	if (m_slowed == false)
 	{
 		// Revert back to original speed
 		m_velocity.x = SPEED;
 	}
 }
+
 
 void EnemyBullet::Fire(sf::Vector2f _target)
 {

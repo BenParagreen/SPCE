@@ -14,6 +14,7 @@ Background::Background()
 	// Constantly be moving left. X value determines speed
 	m_velocity.x = SPEED;
 	m_velocity.y = 0.0f;
+	m_falloffpoint.x = 0;
 }
 
 void Background::Spawn()
@@ -39,15 +40,14 @@ void Background::Update(sf::Time _frameTime)
 	sf::Vector2f position;
 
 	position.x = 0;
-	m_fallOffPoint = position.x + m_sprite.getGlobalBounds().width;
+	m_spriteposition.x = position.x + m_sprite.getGlobalBounds().width;
 
 	// detect if off screen left, if so, use same code from spawn function to position to the right.
 	// in fact just call spawn
-	if (m_fallOffPoint <= 0)
+	if (m_spriteposition.x <= m_falloffpoint.x)
 	{
 		Spawn();
-
-		m_fallOffPoint = m_fallOffPoint + m_sprite.getGlobalBounds().width;
+		m_falloffpoint.x = m_falloffpoint.x - m_sprite.getGlobalBounds().width;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
@@ -55,20 +55,18 @@ void Background::Update(sf::Time _frameTime)
 		// Code if the object has been slowed down
 		if (m_slowed == true)
 		{
-			// Store old velocity to revert back to
-			m_oldvelocity.x = m_velocity.x;
+     		// Set new velocity
+			m_velocity.x = -SPEED * 2;
 
-			// Set new velocity
-			m_velocity.x = SPEED * 3;
-
-			m_sprite.setTexture(AssetManager::GetTexture("graphics/Background.png"));
-
+			m_sprite.setTexture(AssetManager::GetTexture("graphics/BackgroundWarped.png"));
 		}
 
 	}		
-	if (m_slowed = false)
+	if (m_slowed == false)
 	{
 		// Revert back to original speed
-		m_velocity.x = m_oldvelocity.x;
+		m_velocity.x = SPEED;
+
+		m_sprite.setTexture(AssetManager::GetTexture("graphics/background.jpg"));
 	}
 }
