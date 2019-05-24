@@ -190,7 +190,7 @@ void Level::LoadLevel(int _levelToLoad)
 	m_player = player;
 
 	// Create the background
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < 5; ++i)
 	{
 		Background* background = new Background();
 

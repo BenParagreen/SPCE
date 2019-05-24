@@ -15,9 +15,10 @@ public:
 
 
 private:
-    // Background shared data
-    static float s_furthestPoint;
 
+	static float s_furthestPoint;
+
+	sf::Vector2f m_spawnposition;
 	sf::Vector2f m_spriteposition;
 	sf::Vector2f m_falloffpoint;
 
