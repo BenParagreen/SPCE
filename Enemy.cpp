@@ -16,9 +16,6 @@
 #define VELOCITY_X_MIN -200
 #define VELOCITY_X_MAX -40
 
-
-
-
 Enemy::Enemy()
 	: MovingObject()
 	, m_level(nullptr)
@@ -74,7 +71,7 @@ void Enemy::Update(sf::Time _frameTime)
 	    // Code if the object has been slowed down
 	if (m_slowed == true && m_velocity.x != 0)
 	{
-		m_velocity.x = -25;
+		m_velocity.x = - 40;
 	}
 	if (m_slowed == false && m_oldvelocity.x != 0)
 	{
@@ -82,8 +79,16 @@ void Enemy::Update(sf::Time _frameTime)
 		m_velocity.x = m_oldvelocity.x;
 	}
 
-
-
+	if (m_slowed == true )
+	{
+		m_sprite.setTexture(AssetManager::GetTexture("graphics/Bannan.png"));
+		m_shoottimecap = 3.0f;
+	}
+	if (m_slowed == false)
+	{
+		m_sprite.setTexture(AssetManager::GetTexture("graphics/EnemyShip.png"));
+		m_shoottimecap = 2.0f;
+	}
 }
 
 void Enemy::Spawn()

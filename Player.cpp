@@ -8,8 +8,9 @@
 #include "SpeedUp.h"
 
 //Constants
-#define SPEED 500.0f
 #define SPEEDANGLE 3.0f
+#define SPEEDABILITY 800.0f
+#define REGULARSPEED 500.0f
 
 Player::Player()
 	: MovingObject()
@@ -22,18 +23,22 @@ Player::Player()
 	, m_slowtimeavailable()
 	, m_slowtimeavailablecap(10.0f)
 	, m_slowmostatus(false)
-	, m_begincountdown(false)
+	, m_beginslowmocountdown(false)
+	, m_speedtime()
+	, m_speedtimecap(3.0f)
+	, m_beginspeedcountdown(false)
+	, m_speed(500.0f)
 {
 	m_sprite.setTexture(AssetManager::GetTexture("graphics/Jet.png"));
 
 	// Set up the animation
 	m_animationSystem.SetSprite(m_sprite);
 
-	Animation& runDown = m_animationSystem.CreateAnimation("flying");
-	runDown.AddFrame(AssetManager::GetTexture("graphics/Jet.png"));
-	runDown.AddFrame(AssetManager::GetTexture("graphics/Jet2.png"));
-	runDown.SetPlayBackSpeed(5);
-	runDown.SetLoop(true);
+	Animation& fly = m_animationSystem.CreateAnimation("flying");
+	fly.AddFrame(AssetManager::GetTexture("graphics/Jet.png"));
+	fly.AddFrame(AssetManager::GetTexture("graphics/Jet2.png"));
+	fly.SetPlayBackSpeed(5);
+	fly.SetLoop(true);
 
 	m_animationSystem.Play("flying");
 }
@@ -49,27 +54,30 @@ void Player::Update(sf::Time _frameTime)
 	//Use the keyboard function to check which keys are currently held down and solve direction to move
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		m_velocity.y = -SPEED;
+		m_velocity.y = -m_speed;
+		m_sprite.setTexture(AssetManager::GetTexture("graphics/JetUp.png"));
 		if ( sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			m_velocity.y = -SPEED + (SPEED / SPEEDANGLE);
+			m_velocity.y = -m_speed + (m_speed / SPEEDANGLE);
+		
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		m_velocity.y = SPEED;
+		m_velocity.y = m_speed;
+		m_sprite.setTexture(AssetManager::GetTexture("graphics/JetDown.png"));
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			m_velocity.y = SPEED - (SPEED / SPEEDANGLE);
+			m_velocity.y = m_speed - (m_speed / SPEEDANGLE);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		m_velocity.x = -SPEED;
+		m_velocity.x = -m_speed;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			m_velocity.x = -SPEED + (SPEED / SPEEDANGLE);
+			m_velocity.x = -m_speed + (m_speed / SPEEDANGLE);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		m_velocity.x = SPEED;
+		m_velocity.x = m_speed;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			m_velocity.x = SPEED - (SPEED / SPEEDANGLE);
+			m_velocity.x = m_speed - (m_speed / SPEEDANGLE);
 	}
 
 	// PLAYER BULLET CODE //
@@ -96,7 +104,7 @@ void Player::Update(sf::Time _frameTime)
 			m_currenttime = sf::seconds(0.0f);
 		}
 	}
-
+	/////////////////////////////////////////////////////
 
 	// PLAYER SLOWMO CODE //
 	// Check that the player is ready to use the ability
@@ -110,7 +118,7 @@ void Player::Update(sf::Time _frameTime)
 	if (m_slowtimeavailable.asSeconds() >= m_slowtimeavailablecap && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 	{
         
-		m_begincountdown = true;
+		m_beginslowmocountdown = true;
 
 		if (m_slowtime.asSeconds() <= m_slowtimecap)
 		{
@@ -122,7 +130,7 @@ void Player::Update(sf::Time _frameTime)
 		}
 	}
 	
-	if (m_begincountdown == true)
+	if (m_beginslowmocountdown == true)
 	{
        m_slowtime += _frameTime;
 	}
@@ -132,10 +140,41 @@ void Player::Update(sf::Time _frameTime)
 	{
 		m_level->SlowMo(false);
 		m_slowmostatus = false;
-		m_begincountdown = false;
+		m_beginslowmocountdown = false;
 		m_slowtime = sf::seconds(0.0f);;
 	}
+	//////////////////////////////////////////////////////////////////
+
+	// Player Speed up code
 	
+
+	//After a few seconds stop and change value of time spent moving
+	if (m_abilitycollected == true && sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	{
+		m_beginspeedcountdown = true;		
+		m_abilitycollected = false;
+	}
+
+	if (m_beginspeedcountdown == true)
+	{
+		m_speedtime += _frameTime;
+
+		if (m_speedtime.asSeconds() <= m_speedtimecap)
+		{
+			m_speed = SPEEDABILITY;
+		}
+	}
+
+
+	if (m_speedtime.asSeconds() > m_speedtimecap)
+	{
+		
+		m_speed = REGULARSPEED;
+		m_beginspeedcountdown = false;
+		m_speedtime = sf::seconds(0.0f);
+	}
+
+	//////////////////////////////////////////////////////////////////
 
 	//Call the update function manually on the parent class
 	// this will move the character

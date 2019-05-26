@@ -20,8 +20,6 @@ public:
 	void Kill();
 	void SetLevel(Level* _newLevel);
 	bool GetSlowMo();
-	
-	
 
 private:
 
@@ -40,6 +38,13 @@ private:
 	sf::Time m_slowtimeavailable;
 	float m_slowtimeavailablecap;
 
-	bool m_begincountdown;
+	bool m_beginslowmocountdown;
+
+	sf::Time m_speedtime;
+	float m_speedtimecap;
+
+	bool m_beginspeedcountdown;
+
+	float m_speed;
 
 };

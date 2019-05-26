@@ -31,7 +31,7 @@ Level::Level()
 	, m_currenttime()
 	, m_enemytimecap(2.0f)
 	, m_currenttime2()
-	, m_abilitytimecap(20.0f)
+	, m_abilitytimecap(30.0f)
 {
 	LoadLevel(1);
 }
@@ -190,7 +190,7 @@ void Level::LoadLevel(int _levelToLoad)
 	m_player = player;
 
 	// Create the background
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 3; ++i)
 	{
 		Background* background = new Background();
 
@@ -237,6 +237,7 @@ void Level::LoadLevel(int _levelToLoad)
 		{
 			AbilityHolder* abilityholder = new AbilityHolder();
 			abilityholder->SetPosition(x, y);
+			abilityholder->SetPlayer(m_player);
 			m_updateList.push_back(abilityholder);
 			m_worldDrawList.push_back(abilityholder);
 			m_collisionList.push_back(std::make_pair(abilityholder, player));
@@ -335,15 +336,3 @@ void Level::ChangeScore(int _change)
 {
 	m_score += _change;
 }
-
-
-
-//////////////////
-// BACKGROUND IDEA
-// Spawn background (Must be behind everything
-// move background left
-// Spawn another next to current on right
-// Repeat
-
-// When ability in use
-// switch background sprite

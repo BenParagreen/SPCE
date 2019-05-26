@@ -29,7 +29,7 @@ void EnemyBullet::Update(sf::Time _frameTime)
 	if (m_slowed == false)
 	{
 		// Revert back to original speed
-		m_velocity.x = SPEED;
+		m_velocity.x = SPEED; 
 	}
 }
 

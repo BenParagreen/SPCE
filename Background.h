@@ -21,5 +21,5 @@ private:
 	sf::Vector2f m_spawnposition;
 	sf::Vector2f m_spriteposition;
 	sf::Vector2f m_falloffpoint;
-
+	sf::Vector2f currentPosition;
 };
