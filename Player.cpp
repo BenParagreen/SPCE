@@ -23,6 +23,7 @@ Player::Player()
 	, m_slowtimeavailable()
 	, m_slowtimeavailablecap(10.0f)
 	, m_slowmostatus(false)
+	, m_slowmoready(false)
 	, m_beginslowmocountdown(false)
 	, m_speedtime()
 	, m_speedtimecap(3.0f)
@@ -110,11 +111,14 @@ void Player::Update(sf::Time _frameTime)
 	// Check that the player is ready to use the ability
 	// Once used make everything slow for 5 seconds
 
-	// current problem: Only objects already on screen shall change state, And never revert back. 
-
 	m_slowtimeavailable += _frameTime;
 
-	//After a few seconds stop and change value of time spent moving
+	if (m_slowtimeavailable.asSeconds() >= m_slowtimeavailablecap)
+	{
+		m_slowmoready = true;
+	}
+
+
 	if (m_slowtimeavailable.asSeconds() >= m_slowtimeavailablecap && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 	{
         
@@ -124,7 +128,7 @@ void Player::Update(sf::Time _frameTime)
 		{
 			m_level->SlowMo(true);
 			m_slowmostatus = true;
-			
+			m_slowmoready = false;
 			
 			m_slowtimeavailable = sf::seconds(0.0f);
 		}
@@ -248,3 +252,7 @@ bool Player::GetSlowMo()
 	return m_slowmostatus;
 }
 
+bool Player::GetSlowMoReady()
+{
+	return m_slowmoready;
+}

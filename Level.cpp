@@ -2,11 +2,14 @@
 #include "Framework/AssetManager.h"
 
 #include "Background.h"
+#include "Midground.h"
 #include "Wall.h"
 #include "AbilityHolder.h"
+#include "SlowMoSignal.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Score.h"
+#include "Controls.h"
 #include "SpeedUp.h"
 #include "Bullet.h"
 
@@ -200,6 +203,18 @@ void Level::LoadLevel(int _levelToLoad)
 		AddObjects(background);
 	}
 
+	// Create the midground
+	for (int i = 0; i < 3; ++i)
+	{
+		Midground* midground = new Midground();
+
+		// Call background spawn function
+		midground->Spawn();
+		// Add background to level
+		AddObjects(midground);
+	}
+
+
 	// Reading each character 1 by 1 from the fileff
 	char ch;
     //Each time try to read next character in the text document
@@ -242,6 +257,15 @@ void Level::LoadLevel(int _levelToLoad)
 			m_worldDrawList.push_back(abilityholder);
 			m_collisionList.push_back(std::make_pair(abilityholder, player));
 		}
+		else if (ch == 'S')
+		{
+			SlowMoSignal* slowmosignal = new SlowMoSignal();
+			slowmosignal->SetPosition(x, y);
+			slowmosignal->SetPlayer(m_player);
+			m_updateList.push_back(slowmosignal);
+			m_worldDrawList.push_back(slowmosignal);
+			m_collisionList.push_back(std::make_pair(slowmosignal, player));
+		}
 		else if (ch == '-')
 		{
 
@@ -261,6 +285,10 @@ void Level::LoadLevel(int _levelToLoad)
 	score->SetLevel(this);
 	m_updateList.push_back(score);
 	m_uiDrawList.push_back(score);
+
+	Controls* controls = new Controls();
+	m_updateList.push_back(controls);
+	m_uiDrawList.push_back(controls);
 }
 
 //Whenever A new object is made during play, Add it to the list of game objects

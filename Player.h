@@ -20,6 +20,7 @@ public:
 	void Kill();
 	void SetLevel(Level* _newLevel);
 	bool GetSlowMo();
+	bool GetSlowMoReady();
 
 private:
 
@@ -28,6 +29,7 @@ private:
 	Level* m_level;
 
 	bool m_slowmostatus;
+	bool m_slowmoready;
 
 	sf::Time m_currenttime;
 	float m_timecap;

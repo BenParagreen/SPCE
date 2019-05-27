@@ -66,6 +66,15 @@
     <ClCompile Include="Background.cpp">
       <Filter>GameCode</Filter>
     </ClCompile>
+    <ClCompile Include="Midground.cpp">
+      <Filter>GameCode</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls.cpp">
+      <Filter>GameCode</Filter>
+    </ClCompile>
+    <ClCompile Include="SlowMoSignal.cpp">
+      <Filter>GameCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\AssetManager.h">
@@ -120,6 +129,15 @@
       <Filter>GameCode</Filter>
     </ClInclude>
     <ClInclude Include="Background.h">
+      <Filter>GameCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Midground.h">
+      <Filter>GameCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls.h">
+      <Filter>GameCode</Filter>
+    </ClInclude>
+    <ClInclude Include="SlowMoSignal.h">
       <Filter>GameCode</Filter>
     </ClInclude>
   </ItemGroup>

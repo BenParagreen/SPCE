@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Controls.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="AbilityHolder.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
@@ -141,6 +142,8 @@
     <ClCompile Include="Framework\SpriteObject.cpp" />
     <ClCompile Include="Framework\TextObject.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Midground.cpp" />
+    <ClCompile Include="SlowMoSignal.cpp" />
     <ClCompile Include="SpeedUp.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -151,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Controls.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="AbilityHolder.h" />
     <ClInclude Include="EnemyBullet.h" />
@@ -162,6 +166,8 @@
     <ClInclude Include="Framework\SpriteObject.h" />
     <ClInclude Include="Framework\TextObject.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="SlowMoSignal.h" />
+    <ClInclude Include="Midground.h" />
     <ClInclude Include="SpeedUp.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Pickup.h" />

@@ -3,7 +3,7 @@
 #include "Background.h"
 #include "Framework/AssetManager.h"
 
-#define SPEED -300.0f
+#define SPEED -250.0f
 
 
 float Background::s_furthestPoint = 0;
