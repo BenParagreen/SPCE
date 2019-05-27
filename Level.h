@@ -42,9 +42,7 @@ private:
 	int m_score;
 
 
-	int m_slowmo;
-
-	// Timers forthe enemy spawn loop
+	// Timers for the enemy spawn loop
 	sf::Time m_currenttime;
 	float m_enemytimecap;
 
@@ -54,4 +52,7 @@ private:
 
 	std::vector< std::vector < sf::Sprite > > m_background;
 	std::vector<std::pair<GameObject*, GameObject*>> m_collisionList;
+
+	//sf::Sound m_Music;
+
 };

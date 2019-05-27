@@ -35,8 +35,10 @@ Level::Level()
 	, m_enemytimecap(2.0f)
 	, m_currenttime2()
 	, m_abilitytimecap(30.0f)
+	//, m_Music()
 {
 	LoadLevel(1);
+	//m_Music.setBuffer(AssetManager::GetSoundBuffer("audio/music.ogg"));
 }
 
 
@@ -186,6 +188,8 @@ void Level::LoadLevel(int _levelToLoad)
 	//Define the spacing we will use for the grid
 	const float X_SPACE = 100.0f;
 	const float Y_SPACE = 100.0f;
+
+	
 
 
 	// create the player since other objects need to reference it

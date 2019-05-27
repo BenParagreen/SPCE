@@ -75,7 +75,6 @@ int main()
 		gameWindow.clear(sf::Color::Black);
 
 		
-
 		// Pass draw to level
 		level.Draw(gameWindow);
 

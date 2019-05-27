@@ -40,12 +40,12 @@ private:
 	sf::Time m_slowtimeavailable;
 	float m_slowtimeavailablecap;
 
-	bool m_beginslowmocountdown;
+	bool m_slowmocountdown;
 
 	sf::Time m_speedtime;
 	float m_speedtimecap;
 
-	bool m_beginspeedcountdown;
+	bool m_speedcountdown;
 
 	float m_speed;
 

@@ -19,15 +19,15 @@ Player::Player()
 	, m_currenttime()
 	, m_timecap(1.0f)
 	, m_slowtime()
-    , m_slowtimecap(4.0f)
+	, m_slowtimecap(4.0f)
 	, m_slowtimeavailable()
 	, m_slowtimeavailablecap(10.0f)
 	, m_slowmostatus(false)
 	, m_slowmoready(false)
-	, m_beginslowmocountdown(false)
+	, m_slowmocountdown(false)
 	, m_speedtime()
 	, m_speedtimecap(3.0f)
-	, m_beginspeedcountdown(false)
+	, m_speedcountdown(false)
 	, m_speed(500.0f)
 {
 	m_sprite.setTexture(AssetManager::GetTexture("graphics/Jet.png"));
@@ -122,21 +122,22 @@ void Player::Update(sf::Time _frameTime)
 	if (m_slowtimeavailable.asSeconds() >= m_slowtimeavailablecap && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 	{
         
-		m_beginslowmocountdown = true;
+		m_slowmocountdown = true;
 
-		if (m_slowtime.asSeconds() <= m_slowtimecap)
-		{
-			m_level->SlowMo(true);
-			m_slowmostatus = true;
-			m_slowmoready = false;
+		m_level->SlowMo(true);
+		m_slowmostatus = true;
+		m_slowmoready = false;
+
+		
 			
-			m_slowtimeavailable = sf::seconds(0.0f);
-		}
+		m_slowtimeavailable = sf::seconds(0.0f);
+
 	}
 	
-	if (m_beginslowmocountdown == true)
+	if (m_slowmocountdown == true)
 	{
        m_slowtime += _frameTime;
+	   m_sprite.setTexture(AssetManager::GetTexture("graphics/Hand.png"));
 	}
 	
 
@@ -144,7 +145,7 @@ void Player::Update(sf::Time _frameTime)
 	{
 		m_level->SlowMo(false);
 		m_slowmostatus = false;
-		m_beginslowmocountdown = false;
+		m_slowmocountdown = false;
 		m_slowtime = sf::seconds(0.0f);;
 	}
 	//////////////////////////////////////////////////////////////////
@@ -155,11 +156,11 @@ void Player::Update(sf::Time _frameTime)
 	//After a few seconds stop and change value of time spent moving
 	if (m_abilitycollected == true && sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 	{
-		m_beginspeedcountdown = true;		
+		m_speedcountdown = true;		
 		m_abilitycollected = false;
 	}
 
-	if (m_beginspeedcountdown == true)
+	if (m_speedcountdown == true)
 	{
 		m_speedtime += _frameTime;
 
@@ -174,7 +175,7 @@ void Player::Update(sf::Time _frameTime)
 	{
 		
 		m_speed = REGULARSPEED;
-		m_beginspeedcountdown = false;
+		m_speedcountdown = false;
 		m_speedtime = sf::seconds(0.0f);
 	}
 
