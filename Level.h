@@ -55,4 +55,6 @@ private:
 
 	std::vector<std::pair<GameObject*, GameObject*>> m_collisionList;
 
+	sf::Music m_Music;
+
 };

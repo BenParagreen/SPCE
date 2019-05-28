@@ -34,7 +34,10 @@ Level::Level()
 	, m_enemytimecap(2.0f)
 	, m_currenttime2()
 	, m_abilitytimecap(30.0f)
+	, m_Music()
 {
+	m_Music.openFromFile("audio/music.ogg");
+	m_Music.setLoop(true);
 	LoadLevel(1);
 }
 
@@ -185,6 +188,7 @@ void Level::LoadLevel(int _levelToLoad)
 	Player* player = new Player();
 	m_player = player;
 
+	// SET BACKGROUND //
 	// Create the background
 	for (int i = 0; i < 3; ++i)
 	{
@@ -207,6 +211,10 @@ void Level::LoadLevel(int _levelToLoad)
 		// Add background to level
 		AddObjects(midground);
 	}
+	/////////////////////////////////////////////
+
+	// PLAY MUSIC //
+	m_Music.play();
 
 
 	// Reading each character 1 by 1 from the fileff
