@@ -16,8 +16,8 @@ Player::Player()
 	: MovingObject()
 	, m_animationSystem()
 	, m_level(nullptr)
-	, m_currenttime()
-	, m_timecap(1.0f)
+	, m_firetime()
+	, m_firetimecap(1.0f)
 	, m_slowtime()
 	, m_slowtimecap(4.0f)
 	, m_slowtimeavailable()
@@ -28,7 +28,7 @@ Player::Player()
 	, m_speedtime()
 	, m_speedtimecap(3.0f)
 	, m_speedcountdown(false)
-	, m_speed(500.0f)
+	, m_speed(REGULARSPEED)
 {
 	m_sprite.setTexture(AssetManager::GetTexture("graphics/Jet.png"));
 
@@ -49,9 +49,8 @@ void Player::Update(sf::Time _frameTime)
 	//First assume no keys are pressed
 	m_velocity.x = 0.0f;
 	m_velocity.y = 0.0f;
-	
-	m_currenttime += _frameTime;
 
+	// PLAYER MOVEMENT CODE //
 	//Use the keyboard function to check which keys are currently held down and solve direction to move
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
@@ -80,13 +79,16 @@ void Player::Update(sf::Time _frameTime)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 			m_velocity.x = m_speed - (m_speed / SPEEDANGLE);
 	}
+	////////////////////////
 
 	// PLAYER BULLET CODE //
 	// When the player presses the F key it will set the bullets position and call it to spawn
-	// Create a timer to restrict the amount of bullets fired
+	// Create a timer to restrict the amount of bullets that can be fired
+	
+	m_firetime += _frameTime;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
 	{
-		if (m_currenttime.asSeconds() >= m_timecap)
+		if (m_firetime.asSeconds() >= m_firetimecap)
 		{
 			// Take player position and use to find bullet position
 			sf::Vector2f position;
@@ -102,45 +104,47 @@ void Player::Update(sf::Time _frameTime)
 			m_level->AddObjects(bullet);
 			m_level->AddEnemyCollision(bullet);
 
-			m_currenttime = sf::seconds(0.0f);
+			m_firetime = sf::seconds(0.0f);
 		}
 	}
 	/////////////////////////////////////////////////////
 
 	// PLAYER SLOWMO CODE //
 	// Check that the player is ready to use the ability
-	// Once used make everything slow for 5 seconds
+	// Once used make everything slow for 4 seconds
 
 	m_slowtimeavailable += _frameTime;
 
+	// Check if it is available to let the slow mo signal change sprite
 	if (m_slowtimeavailable.asSeconds() >= m_slowtimeavailablecap)
 	{
 		m_slowmoready = true;
 	}
 
-
+	// If it is available and the E button is pressed, do the ability
 	if (m_slowtimeavailable.asSeconds() >= m_slowtimeavailablecap && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 	{
-        
+        // start countdown till the ability runs out
 		m_slowmocountdown = true;
-
+		// Let level know to make objects slow mo
 		m_level->SlowMo(true);
+		// Tells the current slow mo status for new objects created to figure out if they should be slow mo
 		m_slowmostatus = true;
+		// The ability is no longer ready to use, lets slow mo signal change back to not being available
 		m_slowmoready = false;
 
-		
-			
+		// Reset availability timer
 		m_slowtimeavailable = sf::seconds(0.0f);
-
 	}
 	
+	// Code for countdown until slow mo is over
 	if (m_slowmocountdown == true)
 	{
        m_slowtime += _frameTime;
 	   m_sprite.setTexture(AssetManager::GetTexture("graphics/Hand.png"));
 	}
 	
-
+	// When the countdown is over reset everything to no longer be slow mo
 	if(m_slowtime.asSeconds() > m_slowtimecap)
 	{
 		m_level->SlowMo(false);
@@ -151,17 +155,18 @@ void Player::Update(sf::Time _frameTime)
 	//////////////////////////////////////////////////////////////////
 
 	// PLAYER SPEED UP CODE //
-	// Pickups will appear on screen and when the player collides with them they will be stored ready for use
-	// Once used they will perform the relevant buff on the player for a few seconds and be removed from storage
-	// They will need to picked up again to be used again
+	// The player will pick up an speedup abilty and once it has been used it will increase the players speed for a few seconds
 
-	//After a few seconds stop and change value of time spent moving
+	// If the ability is collected and button is pressed, use it
 	if (m_abilitycollected == true && sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 	{
-		m_speedcountdown = true;		
+		// Begin countdown
+		m_speedcountdown = true;	
+		// Remove the stored ability to prevent it from getting used again
 		m_abilitycollected = false;
 	}
 
+	// If the abilty is used, change the speed for the set amount of time
 	if (m_speedcountdown == true)
 	{
 		m_speedtime += _frameTime;
@@ -172,15 +177,13 @@ void Player::Update(sf::Time _frameTime)
 		}
 	}
 
-
+	// Once the abilty has ran out of time reset to origional values
 	if (m_speedtime.asSeconds() > m_speedtimecap)
 	{
-		
 		m_speed = REGULARSPEED;
 		m_speedcountdown = false;
 		m_speedtime = sf::seconds(0.0f);
 	}
-
 	//////////////////////////////////////////////////////////////////
 
 	//Call the update function manually on the parent class
@@ -216,8 +219,7 @@ void Player::Collide(GameObject& _collider)
 		HasAbility(true);
 	}
 
-
-	// Check if it is an enemy we are currently colliding with
+	// Check if it is an enemy bullet we are currently colliding with
 	EnemyBullet* bulletCollider = dynamic_cast<EnemyBullet*>(&_collider);
 
 	// If we collide with an enemy bullet we die
@@ -227,16 +229,19 @@ void Player::Collide(GameObject& _collider)
 	}
 }
 
+// Tells others if the ability is collected
 bool Player::GetAbility()
 {
 	return m_abilitycollected;
 }
 
+// Lets the ability tell the player that its been collected
 void Player::HasAbility(bool _abilitychange)
 {
 	m_abilitycollected = _abilitychange;
 }
 
+// reloads level on death
 void Player::Kill()
 {
 	//Reload current Level
@@ -244,17 +249,19 @@ void Player::Kill()
 		m_level->ReloadLevel();
 }
 
+// Tells player the level to add to
 void Player::SetLevel(Level* _newLevel)
 {
 	m_level = _newLevel;
 }
 
-
+// Lets others check whether to be slow mo when they are spawned
 bool Player::GetSlowMo()
 {
 	return m_slowmostatus;
 }
 
+// Tells the slow mo signal if the ability is ready
 bool Player::GetSlowMoReady()
 {
 	return m_slowmoready;

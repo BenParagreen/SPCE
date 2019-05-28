@@ -1,5 +1,8 @@
-#include "Level.h"
+// Framework includes
 #include "Framework/AssetManager.h"
+
+// Gamecode includes
+#include "Level.h"
 
 #include "Background.h"
 #include "Midground.h"
@@ -18,8 +21,7 @@
 #include <fstream>
 
 //Define
-
-#define OFFSET 100.0f
+#define CAMERA_OFFSET 100.0f
 
 Level::Level()
 	: m_currentLevel(0)
@@ -30,14 +32,18 @@ Level::Level()
 	, m_collisionList()
 	, m_enemyList()
 	, m_score(0)
-	, m_currenttime()
+	, m_enemytime()
 	, m_enemytimecap(2.0f)
-	, m_currenttime2()
+	, m_abilitytime()
 	, m_abilitytimecap(30.0f)
 	, m_Music()
 {
+	//open music file
 	m_Music.openFromFile("audio/music.ogg");
+	// set music to loop when it finishes
 	m_Music.setLoop(true);
+
+	// load level
 	LoadLevel(1);
 }
 
@@ -45,14 +51,15 @@ Level::Level()
 void Level::Draw(sf::RenderTarget& _target)
 {
 
-	//Move the camera to the right slightly to keep left most wall off screen
+	//Move the camera to the right slightly to keep left most wall off screen using offset
 
 	sf::View camera = _target.getDefaultView();
 	camera.setCenter(
-		camera.getCenter().x + OFFSET,
+		camera.getCenter().x + CAMERA_OFFSET,
 		camera.getCenter().y
 	);
 
+	// Draw World Objects (sprites) //
 
 	for (int i = 0; i < m_worldDrawList.size(); ++i)
 	{
@@ -61,12 +68,13 @@ void Level::Draw(sf::RenderTarget& _target)
 			m_worldDrawList[i]->Draw(_target);
 		}
 	}
+	///////////////////////////
 
-	// Draw UI to the window
+	// Set Drawn objects to Camera //
 	_target.setView(camera);
+	///////////////////////////
 
-	// Draw UI objects
-
+	// Draw UI objects (text etc.) //
 	for (int i = 0; i < m_uiDrawList.size(); ++i)
 	{
 		if (m_uiDrawList[i]->isActive())
@@ -74,10 +82,14 @@ void Level::Draw(sf::RenderTarget& _target)
 			m_uiDrawList[i]->Draw(_target);
 		}
 	}
+	///////////////////
 }
 
 void Level::Update(sf::Time _frameTime)
 {
+	// Update list //
+	// This list goes through all abjects game to upsate them each frame
+
 	for (int i = 0; i < m_updateList.size(); ++i)
 	{
 		if (m_updateList[i]->isActive())
@@ -85,7 +97,10 @@ void Level::Update(sf::Time _frameTime)
 			m_updateList[i]->Update(_frameTime);
 		}
 	}
+	////////////////////
 
+	// Collision List //
+	// This loop checks each object in the game for collisions and calls their collision functions
 
 	for (int i = 0; i < m_collisionList.size(); ++i)
 	{
@@ -102,12 +117,14 @@ void Level::Update(sf::Time _frameTime)
 			}
 		}
 	}
+	////////////////////
 
 
 	// TIMER FOR ENEMY SPAWNING //
-	m_currenttime += _frameTime;
+	// Timer adds up until it is above the time cap, once over the time cap another enemy is created and timer resets to constantly loop this code
+	m_enemytime += _frameTime;
 
-	if (m_currenttime.asSeconds() >= m_enemytimecap)
+	if (m_enemytime.asSeconds() >= m_enemytimecap)
 	{
 		//Create new enemy
 		Enemy* enemy = new Enemy();
@@ -120,14 +137,16 @@ void Level::Update(sf::Time _frameTime)
         m_enemyList.push_back(enemy);
 
 
-		m_currenttime = sf::seconds(0.0f);
+		m_enemytime = sf::seconds(0.0f);
 	}
+	////////////////////////////////
 
 	// TIMER FOR ABILITY SPAWNING //
+	// Same functionality as the enemy spawn loop but for ability spawning
 
-	m_currenttime2 += _frameTime;
+	m_abilitytime += _frameTime;
 
-	if (m_currenttime2.asSeconds() >= m_abilitytimecap)
+	if (m_abilitytime.asSeconds() >= m_abilitytimecap)
 	{
 		//Spawn new speedup ability
 		SpeedUp* speedup = new SpeedUp();
@@ -136,9 +155,9 @@ void Level::Update(sf::Time _frameTime)
 		AddObjects(speedup);
 		AddPlayerCollision(speedup);
 
-		m_currenttime2 = sf::seconds(0.0f);
+		m_abilitytime = sf::seconds(0.0f);
 	}
-
+	///////////////////////////////
 
 }
 
@@ -193,10 +212,8 @@ void Level::LoadLevel(int _levelToLoad)
 	for (int i = 0; i < 3; ++i)
 	{
 		Background* background = new Background();
-
 		// Call background spawn function
 		background->Spawn();
-
 		// Add background to level
 		AddObjects(background);
 	}
@@ -205,7 +222,6 @@ void Level::LoadLevel(int _levelToLoad)
 	for (int i = 0; i < 3; ++i)
 	{
 		Midground* midground = new Midground();
-
 		// Call background spawn function
 		midground->Spawn();
 		// Add background to level
@@ -217,6 +233,8 @@ void Level::LoadLevel(int _levelToLoad)
 	m_Music.play();
 
 
+	// Read in Level file //
+
 	// Reading each character 1 by 1 from the fileff
 	char ch;
     //Each time try to read next character in the text document
@@ -225,7 +243,6 @@ void Level::LoadLevel(int _levelToLoad)
 	while (inFile >> std::noskipws >> ch)
 	{
 		// Perform actions based on what character was read in
-
 		if (ch == ' ')
 		{
 			x += X_SPACE;
@@ -280,9 +297,9 @@ void Level::LoadLevel(int _levelToLoad)
 	}
 
 	inFile.close();
+	/////////////////////////////////
 
-	// Create objects
-
+	// Create ui objects //
 	Score* score = new Score();
 	score->SetLevel(this);
 	m_score = 0;
@@ -292,6 +309,7 @@ void Level::LoadLevel(int _levelToLoad)
 	Controls* controls = new Controls();
 	m_updateList.push_back(controls);
 	m_uiDrawList.push_back(controls);
+	//////////////////////
 }
 
 //Whenever A new object is made during play, Add it to the list of game objects
@@ -304,6 +322,7 @@ void Level::AddObjects(GameObject* _toAdd)
 	_toAdd->SlowMo(m_player->GetSlowMo());
 }
 
+// Allows objects to collide with the enemy
 void Level::AddEnemyCollision(GameObject* _collider)
 {
 	for (int i = 0; i < m_enemyList.size(); ++i)
@@ -315,7 +334,7 @@ void Level::AddEnemyCollision(GameObject* _collider)
 	}
 }
 
-
+// Allows objects to collide with the player
 void Level::AddPlayerCollision(GameObject* _collider)
 {
 	if (m_player->isActive())
@@ -324,7 +343,7 @@ void Level::AddPlayerCollision(GameObject* _collider)
 	}
 }
 
-
+// Changes the slow mo status of all objects in the game
 void Level::SlowMo(bool _activeSlowMo)
 {
 
@@ -350,18 +369,19 @@ void Level::SlowMo(bool _activeSlowMo)
 	}
 }
 
-
+// reloads level on death
 void Level::ReloadLevel()
 {
 	LoadLevel(m_currentLevel);
 }
 
-
-int Level ::GetScore()
+// Lets score text file obtain the score value
+int Level::GetScore()
 {
 	return m_score;
 }
 
+// Changes the score value
 void Level::ChangeScore(int _change)
 {
 	m_score += _change;

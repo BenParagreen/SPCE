@@ -20,7 +20,7 @@ void AbilityHolder::Update(sf::Time _frametime)
 		// If pickup was speedup change the stored sprite to show speed up 
 		if (speedup == true)
 		    m_sprite.setTexture(AssetManager::GetTexture("graphics/SpeedUpStored.png"));
-
+		// When player doesn't have speedup reset back to no ability
 		if (speedup == false)
 			m_sprite.setTexture(AssetManager::GetTexture("graphics/NoAbility.png"));
 	}
