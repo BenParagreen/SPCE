@@ -13,9 +13,11 @@ public:
 
 	void Update(sf::Time _frameTime);
 
+	void ReloadBackground(int _furthestpoint);
+	
 
 private:
-
+	
 	static float s_furthestPoint;
 
 	sf::Vector2f m_spawnposition;

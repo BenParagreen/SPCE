@@ -42,5 +42,5 @@ void EnemyBullet::Fire(sf::Vector2f _target)
 
 void EnemyBullet::Collide(GameObject& _collider)
 {
-	// Do nothing (Level will handle a full reset)
+	m_active = false;
 }

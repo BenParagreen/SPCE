@@ -18,6 +18,7 @@ public:
     void Update(sf::Time _frametime);
 	void LoadLevel(int _levelToLoad);
 	void AddObjects(GameObject* _toAdd);
+	void AddEnemy(GameObject* _toAdd);
 	void AddEnemyCollision(GameObject* _collider );
 	void AddPlayerCollision(GameObject* _collider);
 	void SlowMo(bool _activeSlowMo);
@@ -31,6 +32,8 @@ private:
 
 	int m_currentLevel;
 	Player* m_player;
+
+
 	std::vector<GameObject*> m_updateList;
 	std::vector<GameObject*> m_worldDrawList;
 	std::vector<GameObject*> m_uiDrawList;
@@ -50,9 +53,6 @@ private:
 	sf::Time m_currenttime2;
 	float m_abilitytimecap;
 
-	std::vector< std::vector < sf::Sprite > > m_background;
 	std::vector<std::pair<GameObject*, GameObject*>> m_collisionList;
-
-	//sf::Sound m_Music;
 
 };

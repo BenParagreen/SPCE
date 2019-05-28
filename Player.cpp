@@ -218,7 +218,7 @@ void Player::Collide(GameObject& _collider)
 	// Check if it is an enemy we are currently colliding with
 	EnemyBullet* bulletCollider = dynamic_cast<EnemyBullet*>(&_collider);
 
-	// If we collide with an enemy we die
+	// If we collide with an enemy bullet we die
 	if (bulletCollider != nullptr)
 	{
 		Kill();

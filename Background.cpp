@@ -62,3 +62,8 @@ void Background::Update(sf::Time _frameTime)
 		m_sprite.setTexture(AssetManager::GetTexture("graphics/background.jpg"));
 	}
 }
+
+void Background::ReloadBackground(int _furthestpoint)
+{
+	s_furthestPoint = _furthestpoint;
+}

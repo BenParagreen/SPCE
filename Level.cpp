@@ -27,7 +27,6 @@ Level::Level()
 	, m_updateList()
 	, m_worldDrawList()
 	, m_uiDrawList()
-	, m_background()
 	, m_collisionList()
 	, m_enemyList()
 	, m_score(0)
@@ -35,10 +34,8 @@ Level::Level()
 	, m_enemytimecap(2.0f)
 	, m_currenttime2()
 	, m_abilitytimecap(30.0f)
-	//, m_Music()
 {
 	LoadLevel(1);
-	//m_Music.setBuffer(AssetManager::GetSoundBuffer("audio/music.ogg"));
 }
 
 
@@ -73,7 +70,6 @@ void Level::Draw(sf::RenderTarget& _target)
 		{
 			m_uiDrawList[i]->Draw(_target);
 		}
-
 	}
 }
 
@@ -97,8 +93,9 @@ void Level::Update(sf::Time _frameTime)
 		{
 			if (handler->GetBounds().intersects(collider->GetBounds()))
 			{
-				handler->Collide(*collider);
+				
 				collider->Collide(*handler);
+				handler->Collide(*collider);
 			}
 		}
 	}
@@ -153,11 +150,6 @@ void Level::LoadLevel(int _levelToLoad)
 		delete m_updateList[i];
 	}
 
-	for (int i = 0; i < m_enemyList.size(); ++i)
-	{
-		delete m_enemyList[i];
-	}
-
 	//Clear out lists
 	m_updateList.clear();
 	m_worldDrawList.clear();
@@ -189,9 +181,6 @@ void Level::LoadLevel(int _levelToLoad)
 	const float X_SPACE = 100.0f;
 	const float Y_SPACE = 100.0f;
 
-	
-
-
 	// create the player since other objects need to reference it
 	Player* player = new Player();
 	m_player = player;
@@ -203,6 +192,7 @@ void Level::LoadLevel(int _levelToLoad)
 
 		// Call background spawn function
 		background->Spawn();
+
 		// Add background to level
 		AddObjects(background);
 	}
@@ -354,7 +344,6 @@ void Level::SlowMo(bool _activeSlowMo)
 
 void Level::ReloadLevel()
 {
-
 	LoadLevel(m_currentLevel);
 }
 
