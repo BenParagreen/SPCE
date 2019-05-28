@@ -277,6 +277,7 @@ void Level::LoadLevel(int _levelToLoad)
 
 	Score* score = new Score();
 	score->SetLevel(this);
+	m_score = 0;
 	m_updateList.push_back(score);
 	m_uiDrawList.push_back(score);
 

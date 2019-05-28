@@ -150,8 +150,10 @@ void Player::Update(sf::Time _frameTime)
 	}
 	//////////////////////////////////////////////////////////////////
 
-	// Player Speed up code
-	
+	// PLAYER SPEED UP CODE //
+	// Pickups will appear on screen and when the player collides with them they will be stored ready for use
+	// Once used they will perform the relevant buff on the player for a few seconds and be removed from storage
+	// They will need to picked up again to be used again
 
 	//After a few seconds stop and change value of time spent moving
 	if (m_abilitycollected == true && sf::Keyboard::isKeyPressed(sf::Keyboard::R))

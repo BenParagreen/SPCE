@@ -17,7 +17,6 @@ Background::Background()
 	m_velocity.y = 0.0f;
     m_falloffpoint.x = - m_sprite.getGlobalBounds().width * 2;
 	m_spawnposition.y = 0;
-	
 }
 
 void Background::Spawn()
