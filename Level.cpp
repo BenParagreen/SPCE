@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Score.h"
+#include "Hypeman.h"
 #include "Controls.h"
 #include "SpeedUp.h"
 #include "Bullet.h"
@@ -305,6 +306,12 @@ void Level::LoadLevel(int _levelToLoad)
 	m_score = 0;
 	m_updateList.push_back(score);
 	m_uiDrawList.push_back(score);
+
+	Hypeman* hypeman = new Hypeman();
+	hypeman->SetLevel(this);
+	m_score = 0;
+	m_updateList.push_back(hypeman);
+	m_uiDrawList.push_back(hypeman);
 
 	Controls* controls = new Controls();
 	m_updateList.push_back(controls);

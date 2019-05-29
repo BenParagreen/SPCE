@@ -86,7 +86,7 @@ void Player::Update(sf::Time _frameTime)
 	// Create a timer to restrict the amount of bullets that can be fired
 	
 	m_firetime += _frameTime;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
 	{
 		if (m_firetime.asSeconds() >= m_firetimecap)
 		{
@@ -122,7 +122,7 @@ void Player::Update(sf::Time _frameTime)
 	}
 
 	// If it is available and the E button is pressed, do the ability
-	if (m_slowtimeavailable.asSeconds() >= m_slowtimeavailablecap && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	if (m_slowtimeavailable.asSeconds() >= m_slowtimeavailablecap && sf::Keyboard::isKeyPressed(sf::Keyboard::H))
 	{
         // start countdown till the ability runs out
 		m_slowmocountdown = true;
@@ -158,7 +158,7 @@ void Player::Update(sf::Time _frameTime)
 	// The player will pick up an speedup abilty and once it has been used it will increase the players speed for a few seconds
 
 	// If the ability is collected and button is pressed, use it
-	if (m_abilitycollected == true && sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	if (m_abilitycollected == true && sf::Keyboard::isKeyPressed(sf::Keyboard::J))
 	{
 		// Begin countdown
 		m_speedcountdown = true;	

@@ -75,6 +75,9 @@
     <ClCompile Include="SlowMoSignal.cpp">
       <Filter>GameCode</Filter>
     </ClCompile>
+    <ClCompile Include="Hypeman.cpp">
+      <Filter>GameCode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\AssetManager.h">
@@ -138,6 +141,9 @@
       <Filter>GameCode</Filter>
     </ClInclude>
     <ClInclude Include="SlowMoSignal.h">
+      <Filter>GameCode</Filter>
+    </ClInclude>
+    <ClInclude Include="Hypeman.h">
       <Filter>GameCode</Filter>
     </ClInclude>
   </ItemGroup>
