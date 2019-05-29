@@ -39,7 +39,7 @@ Level::Level()
 	, m_Music()
 {
 	//open music file
-	m_Music.openFromFile("audio/music.ogg");
+	m_Music.openFromFile("audio/11 - Sync.ogg");
 	// set music to loop when it finishes
 	m_Music.setLoop(true);
 
